@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KAA Vize Hazırlık — İnteraktif Test Platformu (157 İstisna Soru)</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden transition-colors duration-200 selection:bg-indigo-500 selection:text-white">
+
+  <!-- ÜST GEZİNME ÇUBUĞU (HEADER) -->
+  <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+      <!-- Logo / Başlık -->
+      <button type="button" onclick="confirmGoHome()" class="flex items-center gap-3 text-left group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z" />
+          </svg>
+        </div>
+        <div>
+          <span class="block text-sm sm:text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+            KAA Vize Platformu
+          </span>
+          <span class="block text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            157 İstisna Soru Havuzu
+          </span>
+        </div>
+      </button>
+
+      <!-- Sağ Kontroller -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Kopya Kağıdı / Hızlı Özet Modal Butonu -->
+        <button type="button" onclick="openCheatSheetModal()" class="inline-flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500/10 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 transition-colors">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+          <span class="hidden sm:inline">Hızlı Özet &amp; Tablo</span>
+          <span class="sm:hidden">Özet</span>
+        </button>
+
+        <!-- Tema Geçiş Butonu -->
+        <button type="button" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Temayı Değiştir" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors">
+          <!-- Güneş ikonu (Koyu moddayken gösterilir) -->
+          <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          </svg>
+          <!-- Ay ikonu (Açık moddayken gösterilir) -->
+          <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ANA İÇERİK ALANI -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
+    <!-- ==================== 1. ANA MENÜ / YAPILANDIRMA EKRANI ==================== -->
+    <section id="view-home" class="space-y-6 sm:space-y-8">
+      <!-- Üst Özet Kartı & Kişisel İstatistikler -->
+      <div class="rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 border border-indigo-500/20 shadow-xl">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-2 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs font-semibold">
+              <span>447 Soruluk Havuzdan Süzülen Kritik 157 İstisna</span>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              En Uzun Şık Kuralına Uymayan Soruları Kodla
+            </h1>
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+              Havuzdaki soruların %65'inde en uzun şık doğru cevapken, burada <strong>en uzun şık olmayan 157 kritik sorunun tamamı</strong> yer alır. Şıkları karıştırarak gerçek bilgiyle pratik yap.
+            </p>
+          </div>
+
+          <!-- LocalStorage Canlı İstatistik Kutuları -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 shrink-0">
+            <div class="rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 p-3.5">
+              <div class="text-xs text-slate-300 font-medium">Toplam Havuz</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-white mt-0.5">157 <span class="text-xs font-normal text-slate-300">soru</span></div>
+            </div>
+            <div class="rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 p-3.5">
+              <div class="text-xs text-slate-300 font-medium">Çözülen Toplam</div>
+              <div id="statTotalSolved" class="text-xl sm:text-2xl font-extrabold text-emerald-300 mt-0.5">0</div>
+            </div>
+            <div class="rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 p-3.5">
+              <div class="text-xs text-slate-300 font-medium">Kayıtlı Yanlış</div>
+              <div id="statWrongCount" class="text-xl sm:text-2xl font-extrabold text-rose-300 mt-0.5">0</div>
+            </div>
+            <div class="rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 p-3.5">
+              <div class="text-xs text-slate-300 font-medium">Yıldızlı / Tekrar</div>
+              <div id="statStarredCount" class="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Akıllı Çalışma Ayarları Barı -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+            </svg>
+            Akıllı Çalışma Ayarları
+          </h2>
+          <span class="text-xs text-slate-400 hidden sm:inline">Tüm sınav modlarına uygulanır</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <!-- Ayar 1: Şıkları Karıştır -->
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 cursor-pointer hover:border-indigo-500/50 transition-colors">
+            <input type="checkbox" id="optShuffleOptions" checked class="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600" />
+            <div>
+              <div class="text-sm font-semibold text-slate-900 dark:text-white">Şıkları da Karıştır</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">A-E harflerini rastgele dağıtır; ezberi önler.</div>
+            </div>
+          </label>
+
+          <!-- Ayar 2: Kontrol Modu -->
+          <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40">
+            <div class="text-sm font-semibold text-slate-900 dark:text-white mb-1.5">Kontrol Zamanı</div>
+            <div class="grid grid-cols-2 gap-1.5 bg-slate-200/70 dark:bg-slate-900 p-1 rounded-lg">
+              <button type="button" id="ctrlInstantBtn" onclick="setControlMode('instant')" class="px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all">
+                Anında Kontrol
+              </button>
+              <button type="button" id="ctrlEndBtn" onclick="setControlMode('end')" class="px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
+                Sınav Sonu
+              </button>
+            </div>
+          </div>
+
+          <!-- Ayar 3: Uzunluk Tuzağı Analizi -->
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 cursor-pointer hover:border-indigo-500/50 transition-colors">
+            <input type="checkbox" id="optLengthAnalysis" checked class="mt-1 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600" />
+            <div>
+              <div class="text-sm font-semibold text-slate-900 dark:text-white">Uzunluk Tuzağı Analizi</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Şıkların karakter sayısını rozetle gösterir.</div>
+            </div>
+          </label>
+
+          <!-- Ayar 4: Soru Sırası -->
+          <div class="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40">
+            <div class="text-sm font-semibold text-slate-900 dark:text-white mb-1.5">Soru Sıralaması</div>
+            <div class="grid grid-cols-2 gap-1.5 bg-slate-200/70 dark:bg-slate-900 p-1 rounded-lg">
+              <button type="button" id="orderRandomBtn" onclick="setQuestionOrder('random')" class="px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all">
+                Karışık
+              </button>
+              <button type="button" id="orderSeqBtn" onclick="setQuestionOrder('sequential')" class="px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all">
+                Sıralı
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 SINAV MODU KARTI -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+        <!-- MOD 1: Tüm İstisna Havuzu (157 Soru) -->
+        <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between shadow-sm hover:border-indigo-500/50 transition-all">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300">
+                TAM MARATON
+              </span>
+              <span class="text-xs font-semibold text-slate-400">157 Soru</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tüm İstisna Havuzu (157 Soru Karışık)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
+              1. konudan 17 Ek'e kadar "en uzun şık" kuralına uymayan 157 sorunun tamamını tek oturumda karışık olarak çözer.
+            </p>
+          </div>
+          <div class="mt-6">
+            <button type="button" onclick="startAllPoolQuiz()" class="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-indigo-600/20 transition-all flex items-center justify-center gap-2">
+              <span>157 Soruluk Testi Başlat</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- MOD 2: Vize Simülasyonu (25 / 50 Soru + Sayaç) -->
+        <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between shadow-sm hover:border-emerald-500/50 transition-all">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-300">
+                SINAV PROVA MODU
+              </span>
+              <span class="text-xs font-semibold text-slate-400">25 veya 50 Soru</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Vize Simülasyonu</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1.5">
+              Havuzdan rastgele soru çeker ve isteğe bağlı geri sayım sayacıyla gerçek sınav baskısını simüle eder.
+            </p>
+
+            <!-- Soru Sayısı & Süre Seçimi -->
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Soru Sayısı</label>
+                <div class="grid grid-cols-2 gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                  <button type="button" id="simCount25" onclick="setSimCount(25)" class="py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition-all">25 Soru</button>
+                  <button type="button" id="simCount50" onclick="setSimCount(50)" class="py-2 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition-all">50 Soru</button>
+                </div>
+              </div>
+              <div>
+                <label for="simTimerSelect" class="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">Geri Sayım Süresi</label>
+                <select id="simTimerSelect" class="w-full py-2.5 px-3 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                  <option value="0">Süresiz (Kronometre)</option>
+                  <option value="25">25 Dakika Geri Sayım</option>
+                  <option value="35" selected>35 Dakika Geri Sayım</option>
+                  <option value="50">50 Dakika Geri Sayım</option>
+                  <option value="60">60 Dakika Geri Sayım</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5">
+            <button type="button" onclick="startSimulationQuiz()" class="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2">
+              <span>Vize Simülasyonunu Başlat</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- MOD 3: Konu Bazlı Çalışma -->
+        <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between shadow-sm hover:border-violet-500/50 transition-all lg:col-span-2">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-lg text-xs font-bold bg-violet-500/10 text-violet-600 dark:bg-violet-500/20 dark:text-violet-300">
+                  ÜNİTE FİLTRESİ
+                </span>
+                <span id="selectedTopicSummary" class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                  Seçili: 0 konu (0 soru)
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="selectAllTopics(true)" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                  Tümünü Seç
+                </button>
+                <button type="button" onclick="selectAllTopics(false)" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                  Temizle
+                </button>
+              </div>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Konu Bazlı Çalışma (1–17 Ek)</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-4">
+              Zayıf olduğun konuları işaretle (örneğin 13. Konu veya 17. Konu Yönlendirme Protokolleri) ve sadece seçtiğin ünitelerden test oluştur.
+            </p>
+
+            <!-- Dinamik Konu Listesi Grid -->
+            <div id="topicSelectorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-72 overflow-y-auto pr-1"></div>
+          </div>
+
+          <div class="mt-5 flex flex-col sm:flex-row items-center gap-3">
+            <button type="button" id="startTopicBtn" onclick="startTopicQuiz()" class="w-full sm:w-auto flex-1 py-3.5 px-6 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.99] text-white font-bold text-sm shadow-lg shadow-violet-600/20 transition-all flex items-center justify-center gap-2">
+              <span id="startTopicBtnText">Seçili Konulardan Test Oluştur</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- MOD 4: Yanlışlarım & Yıldızlı Sorular -->
+        <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 flex flex-col justify-between shadow-sm hover:border-rose-500/50 transition-all lg:col-span-2">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-lg text-xs font-bold bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-300">
+                  AKILLI TEKRAR KUTUSU
+                </span>
+                <span class="text-xs text-slate-400">Tarayıcı hafızasında saklanır</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">Yanlışlarım &amp; Yıldızlı Sorular</h3>
+              <p class="text-sm text-slate-600 dark:text-slate-400">
+                Testlerde yanlış yaptığın veya <strong class="text-amber-600 dark:text-amber-400">"Tekrar Et"</strong> yıldızı eklediğin soruları tek tıkla yeniden çöz.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button type="button" onclick="startReviewQuiz('both')" id="reviewBothBtn" class="px-4 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-xs sm:text-sm shadow-md shadow-rose-600/20 transition-all">
+                Tümünü Tekrar Et (<span id="reviewBothCount">0</span>)
+              </button>
+              <button type="button" onclick="startReviewQuiz('wrong')" id="reviewWrongBtn" class="px-4 py-3 rounded-xl bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/20 disabled:opacity-40 disabled:cursor-not-allowed font-bold text-xs sm:text-sm transition-all">
+                Sadece Yanlışlar (<span id="reviewWrongCount">0</span>)
+              </button>
+              <button type="button" onclick="startReviewQuiz('starred')" id="reviewStarBtn" class="px-4 py-3 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 disabled:opacity-40 disabled:cursor-not-allowed font-bold text-xs sm:text-sm transition-all">
+                Sadece Yıldızlılar (<span id="reviewStarCount">0</span>)
+              </button>
+              <button type="button" onclick="askResetStorage()" class="px-3.5 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700 text-xs font-semibold transition-colors" title="Kayıtlı yanlış ve yıldızlı soruları temizle">
+                Hafızayı Sıfırla
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== 2. AKTİF SINAV EKRANI ==================== -->
+    <section id="view-quiz" class="hidden space-y-5 pb-20 sm:pb-6">
+      <!-- Sınav Üst Kontrol & İlerleme Paneli -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-sm space-y-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span id="quizModeBadge" class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300">
+              Vize Simülasyonu
+            </span>
+            <span id="quizProgressText" class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
+              Soru 1 / 25
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Canlı Skor (Anında Kontrol Modunda) -->
+            <div id="liveScoreBadges" class="hidden sm:flex items-center gap-1.5">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                ✓ <span id="liveCorrect">0</span>
+              </span>
+              <span class="px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                ✕ <span id="liveWrong">0</span>
+              </span>
+            </div>
+
+            <!-- Süre Göstergesi -->
+            <div id="timerBox" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-slate-200">
+              <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span id="timerDisplay">00:00</span>
+            </div>
+
+            <!-- Soru Paleti / Gezgini Butonu -->
+            <button type="button" onclick="openNavigatorModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+              </svg>
+              <span class="hidden sm:inline">Soru Listesi</span>
+            </button>
+
+            <!-- Testi Bitir Butonu -->
+            <button type="button" onclick="askFinishQuiz()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-sm transition-colors">
+              Bitir
+            </button>
+          </div>
+        </div>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div id="quizProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-300" style="width: 4%"></div>
+        </div>
+      </div>
+
+      <!-- SORU KARTI -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 sm:p-8 shadow-sm">
+        <!-- Soru Üst Meta Bilgileri -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="qTopicBadge" class="px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+              Konu 1
+            </span>
+            <span id="qOrigNoBadge" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+              S1
+            </span>
+            <span id="qPoolIdBadge" class="text-xs font-medium text-slate-400">
+              Havuz #1
+            </span>
+          </div>
+
+          <!-- Yıldızla / Tekrar Et Butonu -->
+          <button type="button" id="starCurrentBtn" onclick="toggleCurrentStar()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-amber-400">
+            <svg id="starIcon" class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            <span id="starBtnText">Tekrar Et (S)</span>
+          </button>
+        </div>
+
+        <!-- Soru Metni -->
+        <h2 id="questionText" class="text-base sm:text-xl font-bold text-slate-900 dark:text-white leading-relaxed mb-6">
+          Soru metni yükleniyor...
+        </h2>
+
+        <!-- Şıklar Listesi -->
+        <div id="optionsContainer" class="space-y-3"></div>
+
+        <!-- Anında Kontrol & Uzunluk Tuzağı Açıklama Kutusu -->
+        <div id="instantFeedbackBox" class="hidden mt-6 p-4 rounded-xl border text-sm"></div>
+      </div>
+
+      <!-- ALT GEZİNME ÇUBUĞU (Masaüstü & Mobil Sabit Alt Bar) -->
+      <div class="fixed bottom-0 left-0 right-0 sm:static z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md sm:bg-transparent sm:dark:bg-transparent border-t sm:border-t-0 border-slate-200 dark:border-slate-800 px-4 py-3 sm:p-0">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+          <button type="button" id="prevQuestionBtn" onclick="prevQuestion()" class="px-4 py-3 sm:px-5 sm:py-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            <span>Önceki</span>
+          </button>
+
+          <!-- Klavye Kısayol İpucu (Sadece Masaüstünde) -->
+          <div class="hidden md:flex items-center gap-2 text-xs text-slate-400">
+            <kbd class="px-2 py-1 rounded-md bg-slate-200/70 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-slate-600 dark:text-slate-300">A-E</kbd>
+            <span>veya</span>
+            <kbd class="px-2 py-1 rounded-md bg-slate-200/70 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-slate-600 dark:text-slate-300">1-5</kbd>
+            <span>Şık Seç</span>
+            <span class="mx-1">•</span>
+            <kbd class="px-2 py-1 rounded-md bg-slate-200/70 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-slate-600 dark:text-slate-300">Enter</kbd>
+            <span>Sonraki Soru</span>
+            <span class="mx-1">•</span>
+            <kbd class="px-2 py-1 rounded-md bg-slate-200/70 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-slate-600 dark:text-slate-300">S</kbd>
+            <span>Yıldızla</span>
+          </div>
+
+          <button type="button" id="nextQuestionBtn" onclick="nextQuestion()" class="px-5 py-3 sm:px-6 sm:py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.99] text-white font-bold text-xs sm:text-sm shadow-lg shadow-indigo-600/20 transition-all flex items-center gap-2">
+            <span id="nextBtnLabel">Sonraki Soru</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. SONUÇ VE İSTATİSTİK EKRANI ==================== -->
+    <section id="view-results" class="hidden space-y-6">
+      <!-- Ana Skor Özeti -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span id="resModeLabel" class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-indigo-500/10 text-indigo-600 dark:text-indigo-300">
+              Test Tamamlandı
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              Sınav Sonuç ve Performans Analizi
+            </h2>
+            <p id="resEncouragement" class="text-sm text-slate-600 dark:text-slate-400">
+              İstisna havuzundaki performans detayların aşağıdadır.
+            </p>
+          </div>
+
+          <!-- Başarı Yüzdesi & 4 Metrik -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div class="col-span-2 sm:col-span-1 rounded-xl bg-indigo-600 text-white p-4 text-center flex flex-col justify-center">
+              <div class="text-xs font-semibold text-indigo-100">Başarı</div>
+              <div id="resPercentage" class="text-2xl sm:text-3xl font-extrabold mt-0.5">%0</div>
+            </div>
+            <div class="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3.5 text-center">
+              <div class="text-xs font-semibold text-emerald-700 dark:text-emerald-300">Doğru</div>
+              <div id="resCorrect" class="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">0</div>
+            </div>
+            <div class="rounded-xl bg-rose-500/10 border border-rose-500/20 p-3.5 text-center">
+              <div class="text-xs font-semibold text-rose-700 dark:text-rose-300">Yanlış</div>
+              <div id="resWrong" class="text-xl sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 mt-0.5">0</div>
+            </div>
+            <div class="rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 text-center">
+              <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">Boş</div>
+              <div id="resBlank" class="text-xl sm:text-2xl font-extrabold text-slate-700 dark:text-slate-200 mt-0.5">0</div>
+            </div>
+            <div class="rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-3.5 text-center">
+              <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">Süre</div>
+              <div id="resTime" class="text-lg sm:text-xl font-extrabold font-mono text-slate-700 dark:text-slate-200 mt-1">00:00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hızlı Aksiyon Butonları -->
+        <div class="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-3">
+          <button type="button" id="retryWrongSessionBtn" onclick="retrySessionWrongQuestions()" class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-600/20 transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            <span id="retryWrongSessionText">Yanlış Yapılan Soruları Tekrar Çöz</span>
+          </button>
+
+          <button type="button" onclick="restartSameMode()" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-600/20 transition-all">
+            Aynı Modda Yeni Test Başlat
+          </button>
+
+          <button type="button" onclick="goHome()" class="px-5 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm transition-all">
+            Ana Menüye Dön
+          </button>
+        </div>
+      </div>
+
+      <!-- Konu Bazlı Performans Analizi -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+        <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-4">Konu Bazlı Performans Dağılımı</h3>
+        <div id="topicBreakdownContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+      </div>
+
+      <!-- Detaylı Soru İnceleme Listesi -->
+      <div class="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Soru Bazlı Detaylı İnceleme</h3>
+          <div class="flex flex-wrap items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+            <button type="button" onclick="filterReviewList('all')" id="revFilterAll" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white">Tümü</button>
+            <button type="button" onclick="filterReviewList('wrong')" id="revFilterWrong" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300">Yanlışlar</button>
+            <button type="button" onclick="filterReviewList('blank')" id="revFilterBlank" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300">Boşlar</button>
+            <button type="button" onclick="filterReviewList('correct')" id="revFilterCorrect" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300">Doğrular</button>
+          </div>
+        </div>
+        <div id="detailedReviewList" class="space-y-4"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL 1: HIZLI ÖZET & TABLO (KOPYA KAĞIDI) ==================== -->
+  <div id="cheatSheetModal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Başlık -->
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold">⚡</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">KAA Hızlı Özet &amp; Kritik Tablo</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">En çok karıştırılan yönlendirme protokolleri ve sayısal değerler</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeCheatSheetModal()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal İçerik -->
+      <div class="p-6 overflow-y-auto space-y-6 text-sm">
+        <!-- Bölüm A: Yönlendirme Protokolleri Tablosu -->
+        <div>
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3">
+            1. KAA Yönlendirme (Routing) Protokolleri Karşılaştırması (17. Konu)
+          </h4>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Protokol</th>
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Mimari Sınıf</th>
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Uygulama Alanı</th>
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Enerji Tasarrufu</th>
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Gecikme Süresi</th>
+                  <th class="p-3 font-bold border-b border-slate-200 dark:border-slate-700">Anahtar İpucu</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                <tr>
+                  <td class="p-3 font-extrabold text-indigo-600 dark:text-indigo-400">LEACH</td>
+                  <td class="p-3">Küme Tabanlı</td>
+                  <td class="p-3">Geniş Alanlar</td>
+                  <td class="p-3">Yüksek</td>
+                  <td class="p-3">Düşük</td>
+                  <td class="p-3 text-slate-600 dark:text-slate-400">Dönüşümlü küme başkanlığı, yerel veri birleştirme</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-emerald-600 dark:text-emerald-400">PEGASIS</td>
+                  <td class="p-3">Zincir Tabanlı</td>
+                  <td class="p-3">Sabit Sensörler</td>
+                  <td class="p-3 font-semibold text-emerald-600 dark:text-emerald-400">Çok Yüksek</td>
+                  <td class="p-3 font-semibold text-rose-600 dark:text-rose-400">Yüksek</td>
+                  <td class="p-3 text-slate-600 dark:text-slate-400">Dinamik küme kurma yok, en uzun ağ ömrü</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-amber-600 dark:text-amber-400">SPIN</td>
+                  <td class="p-3">Veri Merkezli</td>
+                  <td class="p-3">Sürekli Veri Akışı</td>
+                  <td class="p-3">Orta / Yüksek</td>
+                  <td class="p-3">Orta</td>
+                  <td class="p-3 text-slate-600 dark:text-slate-400"><strong>ADV - REQ - DATA</strong> el sıkışması (paket kaybı riski)</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-rose-600 dark:text-rose-400">TEEN</td>
+                  <td class="p-3">Reaktif Hiyerarşik</td>
+                  <td class="p-3">Acil Durum Gözlemi</td>
+                  <td class="p-3 font-semibold text-emerald-600 dark:text-emerald-400">Çok Yüksek</td>
+                  <td class="p-3 font-semibold text-indigo-600 dark:text-indigo-400">Çok Düşük (Kritik)</td>
+                  <td class="p-3 text-slate-600 dark:text-slate-400">Olaya duyarlı; <strong>Katı ve Esnek Eşik</strong> değerleri</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-extrabold text-violet-600 dark:text-violet-400">GEAR</td>
+                  <td class="p-3">Konum Tabanlı</td>
+                  <td class="p-3">Bölgesel Sorgular</td>
+                  <td class="p-3">Yüksek</td>
+                  <td class="p-3">Düşük</td>
+                  <td class="p-3 text-slate-600 dark:text-slate-400">Tüm ağa yayın yerine hedef coğrafi bölgeye yönlendirme</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
+            * Not: <strong>Yönlendirilmiş Difüzyon (Directed Diffusion)</strong> ise merkezin <em>Interest</em> sorgusu gönderdiği ve verinin <em>Gradyan yolları</em> üzerinden döndüğü veri merkezli yaklaşımdır.
+          </p>
+        </div>
+
+        <!-- Bölüm B: Kritik Sayısal Değerler & Standartlar -->
+        <div>
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3">
+            2. Sınavda Çıkan Kritik Sayısal Değerler &amp; Standartlar
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-indigo-600 dark:text-indigo-400">10 KB RAM</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">TelosB sensör düğümünün RAM kapasitesi (Konu 12)</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-indigo-600 dark:text-indigo-400">127 Bayt</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">IEEE 802.15.4 standardında azami çerçeve/paket boyutu</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-indigo-600 dark:text-indigo-400">3 Milyon Komut</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">100 m uzağa 1 kbit veri gönderme enerjisi (Pottie &amp; Kaiser)</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">Yaklaşık 13 Kat</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">ATmega128'de ECC-160'ın RSA-1024'e göre hız üstünlüğü</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">3072 Bit RSA</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">NIST SP 800-57'ye göre 128-bit güvenlik eşdeğeri</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-amber-600 dark:text-amber-400">20 kHz Örnekleme</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">10 kHz titreşimi aliasing olmadan inceleme alt sınırı (2x)</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-amber-600 dark:text-amber-400">2425 MHz (Kanal 15)</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">Kanal 11 (2405 MHz) + 4×5 MHz; Wi-Fi çakışmasız: Kanal 26</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-rose-600 dark:text-rose-400">+6 dB Yol Kaybı</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">Serbest uzayda mesafe 2 katına çıkınca sinyal kaybı artışı</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="text-sm font-extrabold text-violet-600 dark:text-violet-400">1600 Hop/sn • &lt;4 cm NFC</div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 mt-0.5">Bluetooth frekans atlama hızı • NFC: 13.56 MHz / &lt;4 cm</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: SORU GEZGİNİ (PALET) ==================== -->
+  <div id="navigatorModal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Soru Gezgini</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Atlamak istediğin sorunun numarasına tıkla</p>
+        </div>
+        <button type="button" onclick="closeNavigatorModal()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="navigatorGrid" class="p-5 overflow-y-auto grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: ÖZEL ONAY PENCERESİ ==================== -->
+  <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <h3 id="confirmModalTitle" class="text-lg font-extrabold text-slate-900 dark:text-white">Onay</h3>
+      <p id="confirmModalMessage" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed"></p>
+      <div class="flex items-center justify-end gap-2.5 pt-2">
+        <button type="button" onclick="closeConfirmModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+          Vazgeç
+        </button>
+        <button type="button" id="confirmModalActionBtn" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-md transition-colors">
+          Onayla
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİM KUTUSU -->
+  <div id="toastBox" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200">
+    <div id="toastMessage" class="px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-800 text-white text-xs sm:text-sm font-semibold shadow-xl border border-slate-700"></div>
+  </div>
+
+  <script>
+    "use strict";
+
+    // =========================================================================
+    // 1. VERİ TABANI: EN UZUN ŞIK KURALINA UYMAYAN TAM 157 İSTİSNA SORU
+    // Her obje: { id, topic, qNo, question, options: [...], correctIndex (0-based) }
+    // =========================================================================
+    const QUESTIONS_DB = [
+      // [Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi]
+      { id: 1, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S1", question: "\"MicaZ Düğümleri ile IoT Tabanlı Bir Sera İzleme Sistemi\" çalışmasında kullanılan kısıtlı kaynaklı sensör düğümleri üzerinde hangi gömülü işletim sistemi çalışmaktadır?", options: ["FreeRTOS", "TinyOS", "Contiki OS", "RIOT OS"], correctIndex: 1 },
+      { id: 2, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S2", question: "Sera izleme sistemi prototipinin sonuç kısmında belirtilen ve sistemi yalnızca izleme yapmaktan çıkarıp kontrol edebilir hâle getirecek temel geliştirme nedir?", options: ["Kablolu haberleşme altyapısına dönülmesi", "Sisteme aktüatörlerin (eyleyiciler) dâhil edilmesi", "Bulut mimarisinin kaldırılarak yerel diske geçilmesi", "Yalnızca analog sıcaklık sensörlerinin kullanılması"], correctIndex: 1 },
+      { id: 3, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S4", question: "Terahertz (THz) dalgalarının atmosferik ortamda pratik haberleşme menzilini ciddi biçimde kısıtlayan ana fiziksel engel nedir?", options: ["Veri modülasyon hızının yetersiz kalması", "Moleküler soğurulma ve yüksek sinyal zayıflaması", "Anten boyutlarının fiziksel olarak çok büyük olması", "Elektromanyetik spektrumun lisanssız olması"], correctIndex: 1 },
+      { id: 4, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S7", question: "Kablosuz haberleşmenin gelişiminde rol alan \"Teorik Temel\", \"Deneysel Kanıt\" ve \"Pratik Telsiz Haberleşmesi\" katkıları sırasıyla hangi bilim insanlarına aittir?", options: ["Marconi → Maxwell → Hertz", "Maxwell → Hertz → Marconi", "Hertz → Marconi → Maxwell", "Maxwell → Marconi → Hertz"], correctIndex: 1 },
+      { id: 5, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S11", question: "Sensör düğümlerinin veriyi doğrudan uzak merkeze tek seferde iletmesi yerine komşu düğümler üzerinden sırayla iletmesine ne ad verilir?", options: ["Single-hop iletişim", "Multihop (çok sıçramalı) iletişim", "Doğrudan yayın (Direct Broadcast)", "Hiyerarşik olmayan yıldız topolojisi"], correctIndex: 1 },
+      { id: 6, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S17", question: "TinyOS işletim sisteminin bileşen tabanlı yapısını kodlamak ve kısıtlı düğümlerde çalıştırmak için geliştirilen C tabanlı programlama dili hangisidir?", options: ["nesC", "Python", "Java", "Rust"], correctIndex: 0 },
+      { id: 7, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S20", question: "2002 yılında yayımlanan ve sensör ağlarının mimari, protokol ve enerji kısıtlarını derli toplu ortaya koyan \"Wireless Sensor Networks: A Survey\" makalesinin baş yazarı kimdir?", options: ["I. F. Akyildiz", "Kris Pister", "Guglielmo Marconi", "James Clerk Maxwell"], correctIndex: 0 },
+      { id: 8, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S21", question: "Düşük güç, düşük veri hızı ve düşük maliyet gerektiren kablosuz cihazlar için PHY (Fiziksel) ve MAC (Ortam Erişim) katmanlarını tanımlayan standart hangisidir?", options: ["IEEE 802.3", "IEEE 802.11be", "IEEE 802.15.4", "IEEE 802.16"], correctIndex: 2 },
+      { id: 9, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S26", question: "RFC 4919 standardıyla tanımlanan ve IPv6 paketlerinin kısıtlı ve düşük güçlü kablosuz ağlarda taşınmasını sağlayarak IoT kapısını açan teknoloji hangisidir?", options: ["6LoWPAN", "TCP/IPv4", "Ethernet IEEE 802.3", "HTTP REST"], correctIndex: 0 },
+      { id: 10, topic: "Konu 1: Kablosuz Ağ Teknolojisinin Tarihçesi", qNo: "S28", question: "Yapay zekâ ve makine öğrenmesi modellerini doğrudan kısıtlı sensör düğümü üzerinde koşturarak ağ trafiğini ve gecikmeyi azaltan güncel yaklaşım hangisidir?", options: ["Cloud veri ambarı", "TinyML / Edge AI", "Ağ klonlama", "Manuel veri filtreleme"], correctIndex: 1 },
+
+      // [Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)]
+      { id: 11, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S3", question: "Kablosuz ağlarda paylaşımlı ortamda sinyallerin havada çakışmasını/çarpışmasını önlemek amacıyla kullanılan kanal erişim yöntemi hangisidir?", options: ["CSMA/CD", "CSMA/CA", "Token Ring", "ALOHA", "FDMA"], correctIndex: 1 },
+      { id: 12, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S4", question: "Bilgisayarlardaki 1 ve 0'lardan oluşan sayısal verilerin havada radyo dalgası olarak iletilebilmesi için RF sinyallerine aktarılması işlemine ne ad verilir?", options: ["Modülasyon", "Routing (Yönlendirme)", "Segmentasyon", "Demultiplexing", "Kapsülleme (Encapsulation)"], correctIndex: 0 },
+      { id: 13, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S8", question: "Bluetooth kulaklıklar, akıllı saatler ve 1-10 metre menzilli kişisel cihazlar arasındaki kablosuz ağ türü aşağıdakilerden hangisidir?", options: ["WLAN (Kablosuz Yerel Alan Ağı)", "WPAN (Kablosuz Kişisel Alan Ağı)", "WMAN (Kablosuz Metropol Alan Ağı)", "WWAN (Kablosuz Geniş Alan Ağı)", "SAN (Depolama Alan Ağı)"], correctIndex: 1 },
+      { id: 14, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S9", question: "Kablosuz ağlarda 2.4 GHz frekans bandının, 5 GHz ve 6 GHz bantlarına göre evdeki duvar ve beton engelleri daha rahat aşmasının temel sebebi nedir?", options: ["Şifresinin daha güçlü olması", "Dalga boyunun daha uzun olması", "Modemin daha az elektrik harcaması", "Yalnızca bilgisayarlar tarafından kullanılabilmesi", "Kablolu internete ihtiyaç duymaması"], correctIndex: 1 },
+      { id: 15, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S11", question: "Slayta göre, Kablosuz Kişisel Çalışma Alanı (WPAN) için belirtilen menzil sınırı ne kadardır?", options: ["1 metrenin altında", "10 metrenin altında", "50 metre civarında", "100 metrenin üzerinde", "Sınırsız"], correctIndex: 1 },
+      { id: 16, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S13", question: "Slaytta belirtilen frekans yönetimine göre Bluetooth, parazitlerden kaçmak için saniyede kaç kez frekans değiştirir (hop)?", options: ["100", "500", "1600", "2400", "5000"], correctIndex: 2 },
+      { id: 17, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S15", question: "Slayta göre Klasik Bluetooth'un (Klasik BT) veri iletim hızı ne kadardır?", options: ["250 kbps", "2-3 Mbps", "100 Mbps", "1 Gbps", "10 kbps"], correctIndex: 1 },
+      { id: 18, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S17", question: "Slayta göre NFC (Yakın Alan) teknolojisinin çalışma menzili ve frekansı nedir?", options: ["< 4 cm menzil ve 13.56 MHz frekans", "10 metre menzil ve 2.4 GHz frekans", "50 metre menzil ve 5 GHz frekans", "< 1 metre menzil ve 100 MHz frekans", "100 metre menzil ve 868 MHz frekans"], correctIndex: 0 },
+      { id: 19, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S20", question: "Akıllı saatlerin anlatıldığı slayta göre, sensörler ve telefon senkronizasyonu için BLE kullanılırken temassız ödeme için hangi teknoloji kullanılır?", options: ["Klasik Bluetooth", "Zigbee", "NFC", "Wi-Fi", "Z-Wave"], correctIndex: 2 },
+      { id: 20, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S21", question: "Slayta göre Radyo Frekansı (RF), sesi, veriyi veya görüntüyü kablosuz iletmek için kullanılan elektromanyetik spektrumun hangi dalga/frekans aralığını ifade eder?", options: ["1 Hz - 1 kHz", "3 kHz - 300 GHz", "1 MHz - 100 MHz", "5 GHz - 10 GHz", "300 GHz - 300 THz"], correctIndex: 1 },
+      { id: 21, topic: "Konu 2: Kablosuz Ağ Sistemleri (LAN, Bluetooth, RF...)", qNo: "S27", question: "5G hücresel teknolojisinde muazzam veri hızlarına ve geniş bant genişliğine ulaşılmasını sağlayan yüksek frekanslı radyo dalgaları hangisidir?", options: ["Kısa dalga (HF)", "Milimetrik Dalgalar (mmWave)", "Ultrasonik ses dalgaları", "Kızılötesi dalgalar", "13.56 MHz indüksiyon bantları"], correctIndex: 1 },
+
+      // [Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)]
+      { id: 22, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S1", question: "Hücresel ağ yapısında geniş bir coğrafi alanın daha küçük bölgelere ayrılması ile oluşturulan yapıya ne ad verilir?", options: ["Şebeke", "Hücre (Cell)", "İletim Hattı", "Frekans Bandı", "Uydu Ağı"], correctIndex: 1 },
+      { id: 23, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S2", question: "Sadece ses iletişimine dayalı olan ve analog radyo sinyallerini kullanan ilk hücresel mobil iletişim nesli hangisidir?", options: ["1G", "2G", "3G", "4G", "5G"], correctIndex: 0 },
+      { id: 24, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S3", question: "Mobil cihazların radyo sinyallerini ilk karşılayan ve hücre merkezinde bulunan fiziksel donanım hangisidir?", options: ["MSC (Mobile Switching Center)", "SIM Kart", "BTS (Base Transceiver Station)", "Modem", "Yönlendirici (Router)"], correctIndex: 2 },
+      { id: 25, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S5", question: "GSM teknolojisinde kullanıcı kimliğini ve telefon numarasını cihazdan bağımsız kılan çıkarılabilir çip hangisidir?", options: ["SD Kart", "SIM Kart", "ROM Bellek", "İşlemci", "RAM Bellek"], correctIndex: 1 },
+      { id: 26, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S6", question: "2.5G neslinde sürekli bağlantı (Always-on) sağlayan ve veri paketi taşımacılığı başlatan teknoloji hangisidir?", options: ["AMPS", "GPRS", "NMT", "VOLTE", "Bluetooth"], correctIndex: 1 },
+      { id: 27, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S7", question: "Gerçek anlamda geniş bant mobil internet erişimi, uygulama (App) ekosistemi ve görüntülü konuşmayı hayatımıza sokan nesil hangisidir?", options: ["1G", "2G", "3G", "0G", "1.5G"], correctIndex: 2 },
+      { id: 28, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S8", question: "4G/LTE teknolojisinde sesli aramaların tamamen internet protokolü (IP) üzerinden iletilmesini sağlayan yapı hangisidir?", options: ["WAP", "VOLTE", "NMT", "AMPS", "WiMAX"], correctIndex: 1 },
+      { id: 29, topic: "Konu 3: Kablosuz Mobil İletişim (GSM, GPRS, LMDS, WAP...)", qNo: "S16", question: "3G teknolojisinde kapasite artışını sağlayan ve her kullanıcıya benzersiz bir matematiksel kod atayarak aynı frekansı paylaştıran erişim yöntemi hangisidir?", options: ["FDMA", "TDMA", "CDMA", "AMPS", "OFDM"], correctIndex: 2 },
+
+      // [Konu 4: Kablosuz Ağ Standartları (Veren Kurum, Örnekler, IEEE 802.11...)]
+      { id: 30, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S2", question: "Veri Bağlantısı Katmanı IEEE 802 mimarisinde hangi iki alt katmana ayrılır?", options: ["PHY ve MAC", "LLC ve MAC", "LLC ve PHY", "Network ve Transport"], correctIndex: 1 },
+      { id: 31, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S3", question: "IEEE 802.2 standardı hangi bileşene karşılık gelir?", options: ["MAC", "PHY", "LLC", "CSMA/CA"], correctIndex: 2 },
+      { id: 32, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S6", question: "İlk IEEE 802.11 (Legacy) standardı hangi yıl yayımlanmış ve maksimum hızı nedir?", options: ["1997 - 2 Mbps", "1999 - 11 Mbps", "1999 - 54 Mbps", "2003 - 54 Mbps"], correctIndex: 0 },
+      { id: 33, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S8", question: "802.11a standardının 2.4 GHz cihazlarının parazitinden etkilenmemesinin nedeni nedir?", options: ["MIMO kullanması", "5 GHz bandında çalışması", "TWT özelliğine sahip olması", "DSSS modülasyonu kullanması"], correctIndex: 1 },
+      { id: 34, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S10", question: "802.11n (Wi-Fi 4) standardının tanıttığı devrimsel teknoloji hangisidir?", options: ["OFDMA", "MIMO", "TWT", "CSMA/CA"], correctIndex: 1 },
+      { id: 35, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S12", question: "802.11ac (Wi-Fi 5) hangi frekans bandında çalışacak şekilde tasarlanmıştır?", options: ["Yalnızca 2.4 GHz", "Yalnızca 5 GHz", "Hem 2.4 GHz hem 5 GHz", "Yalnızca 6 GHz"], correctIndex: 1 },
+      { id: 36, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S21", question: "Wi-Fi 7 (802.11be) standardının teorik maksimum hızı yaklaşık kaç Gbps'dir?", options: ["9.6 Gbps", "46 Gbps", "600 Mbps", "100 Gbps", "24 Gbps"], correctIndex: 1 },
+      { id: 37, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S26", question: "1997 yılında geliştirilen ve zayıf RC4 şifreleme algoritması nedeniyle dakikalar içinde kırılabilen ilk Wi-Fi güvenlik protokolü hangisidir?", options: ["WPA", "WPA2", "WPA3", "WEP", "TKIP"], correctIndex: 3 },
+      { id: 38, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S27", question: "WEP'in güvenlik açıklarını kapatmak için 2003 yılında geçici bir çözüm olarak sunulan ve TKIP kullanan protokol hangisidir?", options: ["WPA3", "WPA", "WPA2", "AES", "SAE"], correctIndex: 1 },
+      { id: 39, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S28", question: "Sözlük saldırılarına karşı koruma sağlayan SAE protokolünü getirerek çevrimdışı parola kırma girişimlerini engelleyen protokol hangisidir?", options: ["WEP", "WPA", "WPA2", "WPA3", "RADIUS"], correctIndex: 3 },
+      { id: 40, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S31", question: "Wi-Fi 7 standardının teknik kısaltması olan 'EHT' ifadesinin açılımı nedir?", options: ["Enhanced High Transmission", "Extremely High Throughput", "Efficient Hybrid Technology", "Extended Home Transfer", "Extra High Traffic"], correctIndex: 1 },
+      { id: 41, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S32", question: "Wi-Fi 7'de 6 GHz bandında veri yollarını iki katına çıkaran kanal genişliği kaç MHz'dir?", options: ["80 MHz", "160 MHz", "240 MHz", "320 MHz", "40 MHz"], correctIndex: 3 },
+      { id: 42, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S33", question: "20'den fazla örtüşmeyen kanal içeren ve 2.4 GHz'e göre daha yüksek hız sunan ancak menzili daha kısa olan frekans bandı hangisidir?", options: ["2.4 GHz", "5 GHz", "6 GHz", "900 MHz", "60 GHz"], correctIndex: 1 },
+      { id: 43, topic: "Konu 4: Kablosuz Ağ Standartları (IEEE 802.11...)", qNo: "S34", question: "WPA2'yi (2004) uzun yıllar boyunca endüstri standardı haline getiren ve güçlü şifreleme sağlayan teknoloji ikilisi hangisidir?", options: ["RC4 ve TKIP", "AES ve CCMP", "SAE ve EAP", "RADIUS ve 802.1X", "DSSS ve OFDM"], correctIndex: 1 },
+
+      // [Konu 5: KAA Tarım Uygulamaları]
+      { id: 44, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S4", question: "Arazinin her noktasının aynı özelliklere sahip olmadığı gerçeğinden yola çıkarak \"doğru zamanda, doğru yerde ve doğru miktarda\" su, gübre ve ilaç uygulamasını savunan kavram aşağıdakilerden hangisidir?", options: ["Geleneksel Tarım", "Topraksız Tarım", "Kuru Tarım", "Organik Tarım", "Hassas Tarım"], correctIndex: 4 },
+      { id: 45, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S8", question: "Geniş açık arazilerde, çok düşük güç tüketimiyle 10-15 km gibi uzun menzilli iletişim sağlayan ve günde/saatte bir veri gönderen sensörler için ideal haberleşme protokolü hangisidir?", options: ["ZigBee", "Wi-Fi", "Bluetooth", "LoRaWAN", "NB-IoT"], correctIndex: 3 },
+      { id: 46, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S9", question: "Sensörlerin veriyi birbirine aktararak ilettiği sık dokulu (mesh) ağ yapılarında ve özellikle kısa menzilli (10-100 metre) sera içi uygulamalarda tercih edilen protokol aşağıdakilerden hangisidir?", options: ["LoRaWAN", "5G", "NB-IoT", "LPWAN", "ZigBee"], correctIndex: 4 },
+      { id: 47, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S10", question: "Çiftçinin arazide kendi ağ geçidini kurmasına gerek kalmadan, sensörlerin hücresel ağ tabanlı doğrudan operatör baz istasyonuna bağlanmasını sağlayan teknoloji hangisidir?", options: ["ZigBee", "NB-IoT", "LoRaWAN", "RF-Mesh", "Bluetooth Low Energy"], correctIndex: 1 },
+      { id: 48, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S12", question: "Seralarda karbondioksit (CO2) seviyesi azaldığında akıllı sera otomasyonu KAA ağı üzerinden otonom olarak hangi eylemi gerçekleştirir?", options: ["Isıtıcıları çalıştırır", "Sulama sistemini durdurur", "Havalandırma kapaklarını açar", "Gölgeleme perdelerini kapatır", "Toprak sensörlerini devreden çıkarır"], correctIndex: 2 },
+      { id: 49, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S15", question: "Sensör verilerinin daha derin analiz için buluta iletilmeden önce doğrudan tarlada (sahada) işlenmesini sağlayan teknolojiye ne ad verilir?", options: ["Uç Bilişim (Edge Computing)", "Bulut Bilişim (Cloud Computing)", "Kuantum Bilişim", "Nesnelerin İnterneti", "Blokzincir"], correctIndex: 0 },
+      { id: 50, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S18", question: "Aşağıdakilerden hangisi akıllı sera otomasyonuna geçişin nedenlerinden (avantajlarından) biri değildir?", options: ["Enerji ve su tasarrufu sağlaması", "Bitkiler için optimum ortam yaratarak verim artışı sağlaması", "Hastalık riskini artırarak doğal seçilimi güçlendirmesi", "Manüel kontrolleri azaltarak işçilikten tasarruf sağlaması", "Geçmiş iklim verileri ile sezonluk takip ve raporlama imkanı sunması"], correctIndex: 2 },
+      { id: 51, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S19", question: "Erken Uyarı Sistemleri ürün kayıplarını engellemek için toplam kaç temel aşamada çalışmaktadır?", options: ["2", "3", "4", "5", "6"], correctIndex: 2 },
+      { id: 52, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S21", question: "Çiftçinin veya sistemin gelen veri doğrultusunda sadece riskli bölgelerde ilaçlama yapması erken uyarı sisteminin hangi aşamasına denk gelir?", options: ["Anlık Veri Toplama", "Bulut Analizi ve Modelleme", "Dijital Uyarı Mekanizması", "Akıllı Müdahale", "Sistematik Raporlama"], correctIndex: 3 },
+      { id: 53, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S26", question: "Sensörlerin sahadan topladığı nem, sıcaklık gibi fiziksel nicelikler, ağ üzerinden iletilmek üzere hangi forma dönüştürülür?", options: ["Su buharına", "Mekanik enerjiye", "Biyokimyasal sinyallere", "Radyo sinyallerine", "Kızılötesi ısı dalgalarına"], correctIndex: 3 },
+      { id: 54, topic: "Konu 5: KAA Tarım Uygulamaları", qNo: "S27", question: "Bulut üzerinde çalışan yapay zeka yazılımlarının işlediği veri sonucunda sahadaki otonom sistemlere (örneğin akıllı sulama vanalarına) gönderdiği komutlara ne ad verilir?", options: ["Tetikleyici komut", "Raporlama sinyali", "Yedekleme protokolü", "Pasif izleme uyarısı", "Ağ geçidi pingi"], correctIndex: 0 },
+
+      // [Konu 6: KAA Sağlık Uygulamaları]
+      { id: 55, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S2", question: "WBAN sistemlerinde kullanılan düğümlerin (nodes) en kritik kısıtlaması aşağıdakilerden hangisidir?", options: ["Anten boyutlarının çok büyük olması", "Veri depolama kapasitesinin sınırsız olması", "Sınırlı pil ömrü ve enerji tüketim kısıtları", "Yüksek işlemci hızının vücuda zarar vermesi", "Yalnızca kablolu bağlantı desteklemeleri"], correctIndex: 2 },
+      { id: 56, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S3", question: "Kalbin elektriksel aktivitesini izlemek için WBAN sistemlerinde kullanılan medikal sensör aşağıdakilerden hangisidir?", options: ["EEG (Elektroensefalografi)", "EMG (Elektromiyografi)", "ECG / EKG (Elektrokardiyografi)", "PPG (Fotopletismografi)", "SpO2 (Kandaki Oksijen Sensörü)"], correctIndex: 2 },
+      { id: 57, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S4", question: "Beyin dalgalarını ve elektriksel nöron aktivitelerini izlemek amacıyla kullanılan medikal sensör hangisidir?", options: ["EKG", "EEG", "EMG", "Akselerometre", "Nabız Oksimetresi"], correctIndex: 1 },
+      { id: 58, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S5", question: "Kas aktivitelerini ve kas hareketlerinden kaynaklanan elektriksel potansiyelleri ölçen sensör aşağıdakilerden hangisidir?", options: ["EMG", "EEG", "EKG", "Glukoz Sensörü", "Sıcaklık Sensörü"], correctIndex: 0 },
+      { id: 59, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S7", question: "IEEE tarafından Kablosuz Beden Alan Ağları (WBAN) için özel olarak geliştirilen standart aşağıdakilerden hangisidir?", options: ["IEEE 802.11a", "IEEE 802.3", "IEEE 802.15.6", "IEEE 802.15.4 (ZigBee)", "IEEE 802.16"], correctIndex: 2 },
+      { id: 60, topic: "Konu 6: KAA Sağlık Uygulamaları", qNo: "S30", question: "Aşağıdakilerden hangisi Kablosuz Algılayıcı Ağların sağlık alanındaki kullanım amaçlarından biri DEĞİLDİR?", options: ["Kronik hastaların uzaktan takibi", "Ameliyat sonrası hayati bulguların izlenmesi", "Yaşlı bakım evlerinde düşme ve acil durum tespiti", "Şehirlerin hava kirliliği haritasının çıkarılması", "Biyo-medikal cihazların kablosuz veri iletimi"], correctIndex: 3 },
+
+      // [Konu 7: KAA Akıllı Şehirler, Araçlar]
+      { id: 61, topic: "Konu 7: KAA Akıllı Şehirler, Araçlar", qNo: "S1", question: "Bir kablosuz algılayıcı düğümünde (Sensor Node) tipik enerji tüketim dağılımı dikkate alındığında, pil ömrünü en çok tüketen birim/işlem aşağıdakilerden hangisidir?", options: ["Kablosuz İletim (Transmission - yaklaşık %70)", "Ortam Algılama (Sensing - yaklaşık %18)", "Mikrodenetleyici ile Veri İşleme (Processing - yaklaşık %9)", "Uyku Modunda Bekleme (Sleep - yaklaşık %3)", "Analog-Dijital Çevrim (ADC)"], correctIndex: 0 },
+      { id: 62, topic: "Konu 7: KAA Akıllı Şehirler, Araçlar", qNo: "S3", question: "Aşağıdaki kablosuz haberleşme teknolojilerinden hangisi, özellikle kilometrelerce uzun menzili (2-15 km) ve düşük güç tüketimiyle şehir ölçeğindeki IoT/LPWAN uygulamaları için optimize edilmiştir?", options: ["LoRa / LoRaWAN", "Bluetooth Low Energy (BLE)", "Standart IEEE 802.15.4 PHY", "Zigbee Home Automation", "Klasik Bluetooth (v2.0)"], correctIndex: 0 },
+      { id: 63, topic: "Konu 7: KAA Akıllı Şehirler, Araçlar", qNo: "S4", question: "Ağ güvenliğinde, kablosuz algılayıcı ağdaki tüm veri trafiğini sahte veya ele geçirilmiş kötü niyetli bir düğüme doğru yönlendirerek trafiği manipüle etmeyi hedefleyen yönlendirme saldırısı aşağıdakilerden hangisidir?", options: ["Sinkhole Saldırısı", "Jamming (Sinyal Bozma)", "Eavesdropping (Gizli Dinleme)", "Replay (Yeniden Oynatma) Saldırısı", "Man-in-the-Middle (Ortadaki Adam)"], correctIndex: 0 },
+      { id: 64, topic: "Konu 7: KAA Akıllı Şehirler, Araçlar", qNo: "S8", question: "Bir kablosuz algılayıcı ağında (WSN), radyo frekans ortamının gürültü veya kasıtlı sinyal bozucularla fiziksel düzeyde engellenerek iletişimin koparılması hangi saldırı türüdür?", options: ["Jamming", "Replay", "Eavesdropping", "Sybil", "Masquerading"], correctIndex: 0 },
+
+      // [Konu 8: KAA Veri Toplama, İletimi ve Analizi]
+      { id: 65, topic: "Konu 8: KAA Veri Toplama, İletimi ve Analizi", qNo: "S11", question: "Çizge (Graph) teorisinde ve KAA'da sıklıkla kullanılan MST ifadesinin açılımı ve Türkçe karşılığı nedir?", options: ["Multi Sensor Transfer - Çoklu Sensör Aktarımı", "Minimum Spanning Tree - Minimum Kapsayan Ağaç", "Maximum Signal Transmission - En Yüksek Sinyal İletimi", "Managed Sensor Timing - Yönetilen Sensör Zamanlaması", "Mobile Sink Topology - Hareketli Baz Topolojisi"], correctIndex: 1 },
+      { id: 66, topic: "Konu 8: KAA Veri Toplama, İletimi ve Analizi", qNo: "S21", question: "Bir CH düğümüne bağlı 5 farklı sensörden sırasıyla 22°C, 23°C, 22°C, 24°C ve 23°C sıcaklık değerleri gelmiştir. Veri birleştirme (Aggregation) olarak \"Aritmetik Ortalama\" kullanılırsa Sink'e iletilecek değer kaç °C olur?", options: ["21,8 °C", "22,8 °C", "23,8 °C", "24,8 °C", "25,0 °C"], correctIndex: 1 },
+
+      // [Konu 9: KAA Endüstriyel ve Örnek Uygulamaları]
+      { id: 67, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S2", question: "WirelessHART standardının uluslararası karşılığı olan IEC standardı hangisidir?", options: ["IEC 62734", "IEC 61850", "IEC 62601", "IEC 62591", "IEC 61508"], correctIndex: 3 },
+      { id: 68, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S3", question: "Bir motordaki titreşimin 10 kHz'e kadar olan frekans bileşenlerini örtüşme (aliasing) olmadan inceleyebilmek için gereken en düşük örnekleme frekansı kaçtır?", options: ["5 kHz", "10 kHz", "12,5 kHz", "15 kHz", "20 kHz"], correctIndex: 4 },
+      { id: 69, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S4", question: "Wi-Fi'ın 1, 6 ve 11. kanallarının yoğun kullanıldığı bir tesiste, aşağıdaki IEEE 802.15.4 kanallarından hangisi bu Wi-Fi kanallarıyla spektral olarak çakışmaz?", options: ["Kanal 26", "Kanal 12", "Kanal 17", "Kanal 18", "Kanal 22"], correctIndex: 0 },
+      { id: 70, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S7", question: "Endüstriyel ağ hiyerarşisinde saha ağı ile SCADA/DCS sistemi arasında protokol dönüşümünü yapan bileşen hangisidir?", options: ["Ağ geçidi", "Saha düğümü", "Yönlendirici düğüm", "Algılayıcı birimi", "Anten modülü"], correctIndex: 0 },
+      { id: 71, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S8", question: "WirelessHART'ta zaman dilimi süresi 10 ms'dir. 200 dilimden oluşan bir süper çerçevede bir düğüme yalnızca bir iletim dilimi atanmışsa, düğümün veri gönderme periyodu ne olur?", options: ["10 ms", "200 ms", "0,5 s", "1 s", "2 s"], correctIndex: 4 },
+      { id: 72, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S9", question: "Motor ve pompalarda titreşim izlemek amacıyla en yaygın kullanılan algılayıcı türü hangisidir?", options: ["Termokupl", "İvmeölçer", "Fotodiyot", "Nem sensörü", "Basınç transdüseri"], correctIndex: 1 },
+      { id: 73, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S10", question: "ISA100.11a standardını uçtan uca IP tabanlı haberleşmeye uygun hale getiren özellik aşağıdakilerden hangisidir?", options: ["Özel HART komut kümesini kullanması", "Küme tabanlı hiyerarşik ağ yapısına sahip olması", "Kanala erişimde yalnızca CSMA/CA kullanması", "6LoWPAN üzerinden IPv6 desteği sunması", "Sub-GHz fiziksel katmanda çalışması"], correctIndex: 3 },
+      { id: 74, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S12", question: "Titreşim sinyalini zaman düzleminden frekans düzlemine aktararak arıza frekanslarının ayırt edilmesini sağlayan yöntem hangisidir?", options: ["Darbe genişlik modülasyonu (PWM)", "Manchester kodlama", "Döngüsel artıklık denetimi (CRC)", "Analog-sayısal kuantalama", "Hızlı Fourier dönüşümü (FFT)"], correctIndex: 4 },
+      { id: 75, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S14", question: "Titreşim spektrumunda baskın genliğin radyal yönde ve milin dönme hızına eşit (1x) frekansta görülmesi en çok hangi arızaya işaret eder?", options: ["Rulman dış bilezik hasarı", "Dişli diş kırılması", "Rotor dengesizliği", "Pompa kavitasyonu", "Elektriksel faz dengesizliği"], correctIndex: 2 },
+      { id: 76, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S15", question: "IEEE 802.15.4'ün 2,4 GHz bandında kanal 11'in merkez frekansı 2405 MHz, kanallar arası aralık ise 5 MHz'dir. Buna göre kanal 15'in merkez frekansı kaçtır?", options: ["2410 MHz", "2415 MHz", "2420 MHz", "2425 MHz", "2430 MHz"], correctIndex: 3 },
+      { id: 77, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S21", question: "Bir saha düğümü her 1 saniyelik süper çerçevede yalnızca 10 ms'lik tek bir dilimde aktif olup kalan sürede uyuyorsa, telsizinin görev çevrimi (duty cycle) yaklaşık yüzde kaçtır?", options: ["%0,01", "%0,1", "%0,2", "%0,5", "%1"], correctIndex: 4 },
+      { id: 78, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S23", question: "Zone 0 olarak sınıflandırılmış bir alana yerleştirilecek kablosuz düğüm için uygun koruma tipi hangisidir?", options: ["Kendinden güvenlik (Ex ia)", "Alev sızdırmaz muhafaza (Ex d)", "Artırılmış güvenlik (Ex e)", "Basınçlandırma (Ex p)", "Yağa daldırma (Ex o)"], correctIndex: 0 },
+      { id: 79, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S26", question: "Fabrika içinde 1 ms altı gecikme gerektiren kontrol döngüleri, 5G'nin hangi kullanım senaryosu kapsamında ele alınır?", options: ["URLLC", "eMBB", "mMTC", "NB-IoT", "LoRaWAN"], correctIndex: 0 },
+      { id: 80, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S27", question: "Bir TinyML modelini mikrodenetleyiciye sığdırmak ve hesaplama yükünü azaltmak için en sık başvurulan teknik hangisidir?", options: ["Ağırlıkları her ölçümde buluttan yeniden indirmek", "Sayısal hassasiyeti 64 bit kayan noktaya yükseltmek", "Ağırlıkları 8 bitlik tam sayılara nicemlemek", "Modeldeki katman sayısını artırmak", "Sensör örnekleme frekansını artırmak"], correctIndex: 2 },
+      { id: 81, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S28", question: "WirelessHART ağında zaman dilimi çizelgelerini ve rotaları merkezi olarak hesaplayıp düğümlere dağıtan bileşen hangisidir?", options: ["Erişim noktası", "Saha cihazı", "Adaptör", "Güvenlik yöneticisi", "Ağ yöneticisi"], correctIndex: 4 },
+      { id: 82, topic: "Konu 9: KAA Endüstriyel ve Örnek Uygulamaları", qNo: "S29", question: "Serbest uzay yayılım modelinde verici ile alıcı arasındaki mesafe iki katına çıkarılırsa yol kaybı yaklaşık ne kadar artar?", options: ["3 dB", "6 dB", "10 dB", "12 dB", "20 dB"], correctIndex: 1 },
+
+      // [Konu 10: KAA Verimlilik, Maliyet Tasarrufu]
+      { id: 83, topic: "Konu 10: KAA Verimlilik, Maliyet Tasarrufu", qNo: "S8", question: "Ağdaki kötü niyetli bir düğümün, baz istasyonuna (sink) en düşük gecikmeyle veya en kaliteli rotayla ulaştığını iddia ederek çevredeki tüm trafiği kendi üzerine çekmesi hangi saldırı türüdür?", options: ["Sinkhole Saldırısı", "Sybil Saldırısı", "Jamming Saldırısı", "Düğüm Uyutma Saldırısı", "Kardeş Düğüm Saldırısı"], correctIndex: 0 },
+      { id: 84, topic: "Konu 10: KAA Verimlilik, Maliyet Tasarrufu", qNo: "S9", question: "Düğümlerin coğrafi konumunu belirlemek için pahalı mesafe ölçüm donanımları (ToA, TDoA gibi) yerine hop sayısı ve komşuluk bilgisini kullanan DV-Hop veya Centroid algoritmaları hangi sınıfa girer?", options: ["Menzil Tabanlı (Range-Based) Konumlandırma", "Menzilsiz (Range-Free) Konumlandırma", "Aktif Radar Konumlandırma", "İnertial Seyrüsefer Sistemi (INS)", "Lidar Tabanlı Haritalama"], correctIndex: 1 },
+      { id: 85, topic: "Konu 10: KAA Verimlilik, Maliyet Tasarrufu", qNo: "S11", question: "Tek bir kötü niyetli algılayıcı düğümün, kendini aynı anda birden fazla farklı ve sahte kimlikle ağa tanıtarak oylama, kümeleme ve yönlendirme kararlarını manipüle etmesi hangi saldırıdır?", options: ["Blackhole Saldırısı", "Sybil Saldırısı", "Flooding Saldırısı", "Desenkronizasyon Saldırısı", "HELLO Flood Saldırısı"], correctIndex: 1 },
+      { id: 86, topic: "Konu 10: KAA Verimlilik, Maliyet Tasarrufu", qNo: "S27", question: "Geniş coğrafi alanlara yayılmış WSN uygulamalarında (ör. akıllı tarım, su şebekeleri), yüzlerce hücresel (GSM/4G) modem ve SIM kart abonelik maliyeti yerine hangi düşük maliyetli LPWAN teknolojisi tercih edilir?", options: ["LoRaWAN / Sigfox", "Yüksek Hızlı Gigabit Wi-Fi 6E", "Ultra Geniş Bant (UWB)", "Bluetooth Klasik (BR/EDR)", "Uydu Tabanlı BGAN Terminali"], correctIndex: 0 },
+
+      // [Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları]
+      { id: 87, topic: "Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları", qNo: "S4", question: "Aşağıdakilerden hangisi WUSN uygulama alanlarından biri değildir?", options: ["Akıllı sulama ve hassas tarım", "Uzay araçlarının yörünge kontrolü", "Maden güvenliği (gaz, çökme riski)", "Heyelan ve deprem gibi afetler için erken uyarı", "Boru hattı, baraj ve tünel gibi altyapıların izlenmesi"], correctIndex: 1 },
+      { id: 88, topic: "Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları", qNo: "S10", question: "Toprak nemi değiştikçe antenin rezonans frekansının kayması ve verimin düşmesi olayına ne ad verilir?", options: ["Çok yollu yayılım (multipath)", "Kümeleme (clustering)", "Boşluk deliği (void hole)", "Çok sekmeli aktarım (multi-hop)", "Anten bozulması (detuning)"], correctIndex: 4 },
+      { id: 89, topic: "Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları", qNo: "S16", question: "Aşağıdakilerden hangisi sualtı ortamının izlenmesinin gerekçelerinden biri değildir?", options: ["Tsunami gibi afetler için erken uyarı sağlamak", "Karasal tarım arazilerinde sulama zamanını belirlemek", "Petrol yatakları ve sızıntıların takibi", "Sınır ihlallerinin tespiti gibi savunma ve güvenlik amaçları", "Sudaki gaz ve asitlik seviyelerinin izlenmesi (ekoloji)"], correctIndex: 1 },
+      { id: 90, topic: "Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları", qNo: "S18", question: "UWSN'nin çalışma prensibinde aşağıdaki aşamaların doğru sıralaması hangisidir?", options: ["Veri toplama → Kümeleme → Çok sekmeli aktarım → Karaya iletim", "Kümeleme → Karaya iletim → Veri toplama → Çok sekmeli aktarım", "Karaya iletim → Veri toplama → Kümeleme → Çok sekmeli aktarım", "Çok sekmeli aktarım → Veri toplama → Karaya iletim → Kümeleme", "Veri toplama → Karaya iletim → Kümeleme → Çok sekmeli aktarım"], correctIndex: 0 },
+      { id: 91, topic: "Konu 11: KAA Su Altı ve Yer Altı Algılayıcı Ağları", qNo: "S29", question: "Sığ suda 300-700 MHz EM haberleşmede frekans arttıkça ne olur?", options: ["Sönümlenme azalır, menzil uzar", "Menzil değişmez", "Gecikme artar, bant genişliği düşer", "Sönümlenme artar, menzil kısalır", "Çok yollu yayılım tamamen ortadan kalkar"], correctIndex: 3 },
+
+      // [Konu 12: KAA Güvenlik]
+      { id: 92, topic: "Konu 12: KAA Güvenlik", qNo: "S3", question: "Örnek olarak incelenen TelosB sensör düğümünün RAM kapasitesi yaklaşık ne kadardır?", options: ["10 MB", "1 GB", "10 KB", "256 KB", "512 bayt"], correctIndex: 2 },
+      { id: 93, topic: "Konu 12: KAA Güvenlik", qNo: "S4", question: "IEEE 802.15.4 standardında bir çerçevenin (paketin) azami boyutu kaç bayttır?", options: ["64 bayt", "256 bayt", "1024 bayt", "127 bayt", "1500 bayt"], correctIndex: 3 },
+      { id: 94, topic: "Konu 12: KAA Güvenlik", qNo: "S5", question: "Pottie ve Kaiser'e (2000) göre 100 m uzaklığa 1 kilobit veri göndermenin enerjisi yaklaşık kaç komutun çalıştırılmasına eşdeğerdir?", options: ["30", "300", "3 milyon", "3 bin", "30 milyar"], correctIndex: 2 },
+      { id: 95, topic: "Konu 12: KAA Güvenlik", qNo: "S6", question: "8-bit ATmega128 üzerindeki ölçümlere göre aynı güvenlik seviyesinde ECC-160, RSA-1024 özel anahtar işlemine göre yaklaşık kaç kat daha hızlıdır?", options: ["Yaklaşık 2 kat", "Yaklaşık 100 kat", "Yaklaşık 1000 kat", "Hızları aynıdır", "Yaklaşık 13 kat"], correctIndex: 4 },
+      { id: 96, topic: "Konu 12: KAA Güvenlik", qNo: "S13", question: "Wood ve Stankovic'in (2002) katman sınıflandırmasına göre sinyal karıştırma (jamming) hangi katmandaki bir DoS saldırısıdır?", options: ["Taşıma katmanı", "Uygulama katmanı", "Ağ katmanı", "Fiziksel katman", "Veri bağlantı katmanı"], correctIndex: 3 },
+      { id: 97, topic: "Konu 12: KAA Güvenlik", qNo: "S14", question: "Komşularına baz istasyonuna en iyi yolun kendisi olduğunu ilan ederek çevredeki trafiği kendine çeken saldırı hangisidir?", options: ["Sinkhole", "Jamming", "Desenkronizasyon", "Replay", "Kaynak tükenmesi (exhaustion)"], correctIndex: 0 },
+      { id: 98, topic: "Konu 12: KAA Güvenlik", qNo: "S15", question: "Gelen paketlerin yalnızca bir kısmını (örneğin sadece alarm paketlerini) atan ve kayıpları normal radyo hatası gibi gösteren saldırı hangisidir?", options: ["Blackhole", "Seçici iletim (grayhole)", "HELLO flood", "Sybil", "Sürekli (constant) jamming"], correctIndex: 1 },
+      { id: 99, topic: "Konu 12: KAA Güvenlik", qNo: "S16", question: "Wormhole saldırısıyla ilgili aşağıdakilerden hangisi doğrudur?", options: ["Saldırganın ağın gizli anahtarlarını bilmesi zorunludur", "Şifreleme bu saldırıyı tek başına engelleyemez", "Tek bir saldırgan düğümle gerçekleştirilir", "Sadece fiziksel katmanı etkiler", "Paket içerikleri değiştirilerek yapılır"], correctIndex: 1 },
+      { id: 100, topic: "Konu 12: KAA Güvenlik", qNo: "S18", question: "Tek bir fiziksel düğümün birden çok kimlik kullanarak ağda birden fazla düğüm gibi görünmesi hangi saldırıdır?", options: ["Sybil", "Sinkhole", "Blackhole", "Wormhole", "HELLO flood"], correctIndex: 0 },
+      { id: 101, topic: "Konu 12: KAA Güvenlik", qNo: "S20", question: "Xu ve arkadaşlarının (2005) tanımladığı jammer türlerinden hangisi kanalı dinler, yalnızca bir iletim başladığında devreye girer ve tespiti en zor olandır?", options: ["Sürekli jammer", "Aldatıcı jammer", "Rastgele jammer", "Pasif jammer", "Reaktif jammer"], correctIndex: 4 },
+      { id: 102, topic: "Konu 12: KAA Güvenlik", qNo: "S23", question: "NIST SP 800-57'ye göre 128-bit güvenlik seviyesi için gereken RSA anahtar boyutu yaklaşık kaç bittir?", options: ["128 bit", "3072 bit", "256 bit", "1024 bit", "512 bit"], correctIndex: 1 },
+      { id: 103, topic: "Konu 12: KAA Güvenlik", qNo: "S26", question: "NIST'in 2025 yılında kısıtlı cihazlar için yayımladığı hafif kriptografi standardı (SP 800-232) hangi algoritma ailesine dayanır?", options: ["RSA", "Skipjack", "DES", "ASCON", "ML-KEM"], correctIndex: 3 },
+      { id: 104, topic: "Konu 12: KAA Güvenlik", qNo: "S29", question: "LEAP protokolünde bir düğümün kullandığı dört anahtar türü hangi seçenekte doğru verilmiştir?", options: ["Açık, gizli, oturum, ana", "Statik, dinamik, geçici, kalıcı", "Sayaç, nonce, MAC, hash", "Bireysel, ikili, küme, grup", "Fiziksel, MAC, ağ, taşıma"], correctIndex: 3 },
+      { id: 105, topic: "Konu 12: KAA Güvenlik", qNo: "S30", question: "Çok yollu (multipath) yönlendirme öncelikle hangi saldırıların etkisini azaltmak için kullanılır?", options: ["Pasif dinleme", "Replay", "Düğümün fiziksel olarak çalınması", "Reaktif jamming", "Seçici iletim ve blackhole"], correctIndex: 4 },
+
+      // [Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim]
+      { id: 106, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S1", question: "Kısa mesafede yüksek hızlı internet erişimi sağlayan ve ev/ofis ağlarında yaygın olarak kullanılan kablosuz iletişim teknolojisi hangisidir?", options: ["Uydu İletişimi", "Wi-Fi", "NFC", "ZigBee", "Radyo Dalgaları"], correctIndex: 1 },
+      { id: 107, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S2", question: "Kapsama alanına göre WPAN (Kablosuz Kişisel Alan Ağı) genel olarak ne kadarlık bir menzile sahiptir?", options: ["1-10 Metre", "10-100 Metre", "1-50 Kilometre", "Ülke Geneli", "Küresel"], correctIndex: 0 },
+      { id: 108, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S3", question: "Elektromanyetik dalgaların pürüzsüz ve büyük yüzeylere (örneğin bina duvarları) çarpıp geri dönmesi olayına ne ad verilir?", options: ["Kırınım", "Saçılma", "Yansıma", "Zayıflama", "Girişim"], correctIndex: 2 },
+      { id: 109, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S4", question: "Mobil cihazlar (4G/5G) veya uydular üzerinden ülke veya kıtalar arası geniş alanda bağlantı sağlayan ağ mimarisi türü aşağıdakilerden hangisidir?", options: ["WPAN", "WLAN", "WMAN", "WWAN", "KSA"], correctIndex: 3 },
+      { id: 110, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S5", question: "İlk nesil (1G) hücresel iletişim teknolojisinin temel özelliği aşağıdakilerden hangisidir?", options: ["Analog ses iletimi", "Dijital ses ve SMS", "Tamamen IP tabanlı yapı", "Düşük gecikme süresi (URLLC)", "Yapay zeka destekli altyapı"], correctIndex: 0 },
+      { id: 111, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S6", question: "5G teknolojisi ile birlikte, özellikle otonom araçlar ve uzaktan ameliyat gibi kritik işlemler için hedeflenen 'ideal ping (gecikme)' süresi ne kadardır?", options: ["1 ms", "10 ms", "50 ms", "100 ms", "1 sn"], correctIndex: 0 },
+      { id: 112, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S7", question: "Kablosuz sensör ağlarında (KSA), ortamdaki sıcaklık veya nem gibi fiziksel büyüklükleri elektrik sinyaline çeviren parça hangisidir?", options: ["Sink Birimi", "İşlem Birimi", "Güç Birimi", "Algılama Birimi", "İletişim Birimi"], correctIndex: 3 },
+      { id: 113, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S8", question: "Hücresel iletişimde, coğrafi alanlarda boşluk bırakmamak ve sinyal planlamasını kolaylaştırmak için hücresel yapı genelde hangi geometrik şekil ile modellenir?", options: ["Altıgen", "Kare", "Daire", "Üçgen", "Sekizgen"], correctIndex: 0 },
+      { id: 114, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S9", question: "Çok kısa mesafede (genellikle temassız) veri ve ödeme alışverişi yapmayı sağlayan teknoloji hangisidir?", options: ["NFC", "Bluetooth", "WiMAX", "ZigBee", "Starlink"], correctIndex: 0 },
+      { id: 115, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S11", question: "Dalganın engellerin kenarlarından (örneğin bina köşelerinden) bükülerek normalde sinyal alamayacak gölge bölgelere yayılması olayına ne denir?", options: ["Zayıflama (Attenuation)", "Yansıma (Reflection)", "Saçılma (Scattering)", "Kırınım (Diffraction)", "Girişim (Interference)"], correctIndex: 3 },
+      { id: 116, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S12", question: "2G GSM teknolojisinde yaygın olarak kullanılan ve kullanıcıların aynı frekansı farklı zaman dilimlerinde kullanmasını sağlayarak zamanı bölen teknoloji hangisidir?", options: ["FDMA", "TDMA", "CDMA", "OFDMA", "CSMA"], correctIndex: 1 },
+      { id: 117, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S13", question: "Bir şehrin veya büyük bir kampüsün (1-50 km) kablosuz olarak ana ağa bağlanmasını sağlayan WMAN mimarisinde öne çıkan standart (IEEE 802.16) aşağıdakilerden hangisidir?", options: ["Wi-Fi", "NFC", "WiMAX", "Bluetooth", "ZigBee"], correctIndex: 2 },
+      { id: 118, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S14", question: "Özellikle 3G ağlarında kullanılan, bağlantının kopmasını önlemek için cihazın sinyali güçlü olan yeni hücreye geçiş bitene kadar aynı anda iki istasyona da bağlı kaldığı devir işlemine ne ad verilir?", options: ["Hard Handover", "Soft Handover", "Fast Handover", "Seamless Handover", "Core Handover"], correctIndex: 1 },
+      { id: 119, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S16", question: "Gönderilecek dijital (1 ve 0) verinin, havada ilerleyebilmesi için bir taşıyıcı radyo dalgası üzerine bindirilmesi işlemine ne ad verilir?", options: ["Modülasyon", "Demodülasyon", "Kapsülleme", "Çoklama", "Yönlendirme"], correctIndex: 0 },
+      { id: 120, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S17", question: "5G teknolojisinde, sinyalin her yöne rastgele yayılması yerine, doğrudan bağlanan cihaza (kullanıcıya) doğru odaklanarak gönderilmesini sağlayan teknoloji hangisidir?", options: ["Small Cells", "Massive MIMO", "Beamforming", "Network Slicing", "mmWave"], correctIndex: 2 },
+      { id: 121, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S18", question: "Kablosuz Sensör Ağlarında (KSA), yüzlerce farklı sensörden toplanan verileri bir araya getiren, protokol dönüşümü yapan ve bunu internet veya GSM ağına aktaran daha güçlü cihaza ne ad verilir?", options: ["Sink (Toplayıcı Düğüm)", "Giyilebilir Biyo-Sensör", "Baz İstasyonu", "Çekirdek Ağ", "IP Yönlendirici"], correctIndex: 0 },
+      { id: 122, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S19", question: "5G ağlarında 10 Gbps'ye varan en yüksek hızları sağlayan ancak duvarlardan geçmekte zorlandığı için dar kapsama alanına (ve daha fazla antene) ihtiyaç duyan frekans bandı hangisidir?", options: ["Düşük Bant (1 GHz altı)", "Orta Bant (1-6 GHz)", "Yüksek Bant (mmWave)", "Terahertz Bant (THz)", "Kızılötesi Bant"], correctIndex: 2 },
+      { id: 123, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S21", question: "Hücresel iletişimde, cihaz ile Çekirdek Ağ (Core Network) arasında doğrudan haberleşmeyi sağlayarak kimlik doğrulama ve ağa kayıt (Registration) işlemlerini yöneten protokol hangisidir?", options: ["RRC", "SIP", "GTP", "NAS", "SDAP"], correctIndex: 3 },
+      { id: 124, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S22", question: "Kullanıcı IP paketlerinin çekirdek ağ elemanları (UPF, SGW, PGW vb.) arasında bir tünel içerisine hapsedilerek güvenle taşınmasını sağlayan protokol hangisidir?", options: ["HTTP", "GTP", "RLC", "MAC", "PDCP"], correctIndex: 1 },
+      { id: 125, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S25", question: "Radyo Erişim Ağı (RAN) protokol katmanlarında; verinin modülasyonu, çeşitleme ve radyo frekansı üzerinden iletilmesi ile doğrudan ilgilenen en alt katman hangisidir?", options: ["RLC", "MAC", "PHY", "PDCP", "SDAP"], correctIndex: 2 },
+      { id: 126, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S28", question: "VoLTE (4G) ve VoNR (5G) üzerinden IP tabanlı sesli ve görüntülü aramaların başlatılması (INVITE) ve sonlandırılması (BYE) süreçlerini IMS katmanında yürüten sinyalleşme protokolü aşağıdakilerden hangisidir?", options: ["RRC", "NAS", "GTP", "SIP", "SDAP"], correctIndex: 3 },
+      { id: 127, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S29", question: "Bilgisayar bilimcilerin, altıgen hücrelerin planlanması ve komşu baz istasyonlarında frekansların çakışmaması (Girişim / Interference önleme) için kullandığı temel teorik altyapı hangi matematik dalına dayanır?", options: ["Makine Öğrenmesi", "Graf Teorisi", "Kriptografi", "Bulanık Mantık", "Kuantum Hesaplama"], correctIndex: 1 },
+      { id: 128, topic: "Konu 13: Kablosuz Ağ Sistemleri ve Mobil İletişim", qNo: "S30", question: "Çekirdek ağ fonksiyonlarının (AMF, SMF, UDM) birbiriyle iletişim kurmak için HTTP/2 ve RESTful API'leri kullandığı yapı aşağıdakilerden hangisidir?", options: ["5G Servis Tabanlı Mimari (SBA)", "4G Çekirdek Ağ (EPC)", "Kablosuz Sensör Ağları (WSN)", "IP Multimedya Alt Sistemi (IMS)", "Radyo Erişim Ağı (RAN)"], correctIndex: 0 },
+
+      // [Konu 15: Wi-Max, Li-Fi, LoRa]
+      { id: 129, topic: "Konu 15: Wi-Max, Li-Fi, LoRa", qNo: "S9", question: "Li-Fi, sunumda hangi temel iletişim ortamıyla tanımlır?", options: ["Yalnızca bakır kablo", "Görünür ve/veya kızılötesi ışık", "Sadece 2,4 GHz Wi-Fi radyo dalgası", "Ses dalgaları", "Manyetik depolama alanı"], correctIndex: 1 },
+      { id: 130, topic: "Konu 15: Wi-Max, Li-Fi, LoRa", qNo: "S16", question: "Sunumda sualtı Li-Fi uygulamasının mevcut durumu nasıl ifade edilir?", options: ["Tüm ülkelerde zorunlu ve yaygın standarttır", "Yalnızca WiMAX baz istasyonlarında kullanılır", "Kabloyla yapılan iletişimle tamamen aynıdır", "LoRaWAN'ın başka bir adıdır", "Deneysel aşamada bir kullanım alanıdır"], correctIndex: 4 },
+      { id: 131, topic: "Konu 15: Wi-Max, Li-Fi, LoRa", qNo: "S24", question: "Sunumdaki AES-128 ifadesi LoRaWAN bağlamında neyle ilişkilidir?", options: ["Işık modülasyonunun frekansıyla", "Şifreleme ve ağ güvenliğiyle", "Sabit WiMAX menzilinin hesaplanmasıyla", "Gateway anteninin fiziksel boyutuyla", "Veri hızının Mbps cinsinden ölçülmesiyle"], correctIndex: 1 },
+      { id: 132, topic: "Konu 15: Wi-Max, Li-Fi, LoRa", qNo: "S25", question: "LoRa'nın hangi uygulama için en uygun seçenek olması beklenir?", options: ["Sürekli yüksek çözünürlüklü video aktarımı", "Oda içinde LED üzerinden yüksek hızlı dosya transferi", "Bir sensörün toprak nemini ölçüp az miktarda veriyi aralıklarla göndermesi", "Fiber omurganın tüm kapasitesini karşılamak", "Gerçek zamanlı, çok yüksek bant genişlikli uzaktan ameliyat görüntüsü taşımak"], correctIndex: 2 },
+
+      // [Konu 17: KAA'da Yönlendirme (Routing) Protokolleri]
+      { id: 133, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S2", question: "Sunumda yönlendirme protokolleri hangi üç ana mimariye ayrılmıştır?", options: ["Merkezi, dağıtık ve hibrit", "Statik, dinamik ve rastgele", "Hiyerarşik, veri merkezli ve konum tabanlı", "Kablolu, kablosuz ve optik", "Tek atlamalı, çift atlamalı ve çok atlamalı"], correctIndex: 2 },
+      { id: 134, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S4", question: "LEACH protokolünde küme başkanlığı görevi nasıl yürütülür?", options: ["Sensörler arasında dönüşümlü olarak", "Her zaman merkeze en yakın sensörde", "Yalnızca en yüksek enerjili sensörde", "Ağ kurulurken bir kez seçilip değiştirilmeden", "GPS koordinatına göre sabit biçimde"], correctIndex: 0 },
+      { id: 135, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S6", question: "PEGASIS'te hangi işlem ortadan kalktığı için ek maliyet oluşmaz?", options: ["Coğrafi konum belirleme", "Dinamik küme kurma", "Veri sorgulama", "Eşik değeri belirleme", "Veri sıkıştırma"], correctIndex: 1 },
+      { id: 136, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S7", question: "SPIN protokolünde komşuya veri hakkında bilgi veren ilk paket hangisidir?", options: ["DATA", "REQ", "ADV", "ACK", "INTEREST"], correctIndex: 2 },
+      { id: 137, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S8", question: "SPIN protokolünün üç aşamalı el sıkışma sıralaması hangisidir?", options: ["REQ - DATA - ADV", "DATA - ADV - REQ", "ADV - DATA - REQ", "ADV - REQ - DATA", "INTEREST - GRADIENT - DATA"], correctIndex: 3 },
+      { id: 138, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S9", question: "TEEN protokolü hangi tür iletim yaklaşımını benimser?", options: ["Zamana değil olaya duyarlı iletim", "Sürekli ve periyodik veri iletimi", "Yalnızca konum bilgisine dayalı iletim", "Her düğümün tüm ağa yayın yapması", "Zincir üzerinden sabit aralıklarla iletim"], correctIndex: 0 },
+      { id: 139, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S10", question: "TEEN protokolünde hangi değerlerden yararlanılır?", options: ["Yalnızca GPS koordinatları", "Küme sayısı ve düğüm kimliği", "Veri paketi boyutu ve ağ genişliği", "Zincir uzunluğu ve komşu sayısı", "Katı ve esnek eşik değerleri"], correctIndex: 4 },
+      { id: 140, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S11", question: "Yönlendirilmiş Difüzyon'da merkezin ağa gönderdiği hedef odaklı sorgu nasıl adlandırılır?", options: ["ADV", "Interest", "DATA", "REQ", "Threshold"], correctIndex: 1 },
+      { id: 141, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S12", question: "Yönlendirilmiş Difüzyon'da veri, sorguyla eşleştiğinde hangi yapı üzerinden merkeze yönelir?", options: ["Küme başkanları", "Sabit zaman çizelgesi", "Gradyan yolları", "GPS uyduları", "Rastgele yayın"], correctIndex: 2 },
+      { id: 142, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S15", question: "Sunumda akıllı tarım için verilen örnek uygulama hangisidir?", options: ["Yalnızca uydu arızalarını izlemek", "Mahsul nemi, sıcaklık ve iklimi izlemek", "Hastaların hayati fonksiyonlarını izlemek", "Trafik ışıklarının rengini değiştirmek", "Bilgisayar işlemci sıcaklığını ölçmek"], correctIndex: 1 },
+      { id: 143, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S16", question: "Bir sensör ağında enerji yükünün düğümler arasında paylaştırılması ve yerel veri birleştirme istenmektedir. Sunumdaki hangi protokol bu yaklaşımla en doğrudan örtüşür?", options: ["GEAR", "SPIN", "LEACH", "Yönlendirilmiş Difüzyon", "TEEN"], correctIndex: 2 },
+      { id: 144, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S17", question: "Sabit sensörlerden oluşan bir ağda temel öncelik çok yüksek enerji tasarrufu ve daha uzun ağ ömrüdür. Sunumdaki karşılaştırmaya göre hangi protokol öne çıkar?", options: ["SPIN", "LEACH", "GEAR", "TEEN", "PEGASIS"], correctIndex: 4 },
+      { id: 145, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S18", question: "Bir sensörün elindeki veriyi komşularına duyurması, talep gelirse veriyi göndermesi ve böylece gereksiz tekrarları azaltması hangi protokolün çalışma biçimidir?", options: ["SPIN", "GEAR", "LEACH", "PEGASIS", "TEEN"], correctIndex: 0 },
+      { id: 146, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S19", question: "Bir uygulamada aracı düğümlerin veriyi talep etmemesi nedeniyle paketin hedefe ulaşamaması riski özellikle dikkate alınmalıdır. Bu dezavantaj hangi protokole aittir?", options: ["LEACH", "GEAR", "PEGASIS", "SPIN", "TEEN"], correctIndex: 3 },
+      { id: 147, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S20", question: "Bir ağda yalnızca belirli bir olay gerçekleştiğinde veri gönderilmesi, kritik değişimlere hızlı tepki verilmesi isteniyor. Hangi protokol daha uygundur?", options: ["PEGASIS", "TEEN", "GEAR", "SPIN", "LEACH"], correctIndex: 1 },
+      { id: 148, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S22", question: "Bir ağda hedef bölgenin coğrafi konumu biliniyor ve tüm ağa yayın yapmak yerine yalnızca o bölgeye veri ulaştırılmak isteniyor. Hangi protokol bu ihtiyaca yöneliktir?", options: ["SPIN", "LEACH", "TEEN", "PEGASIS", "GEAR"], correctIndex: 4 },
+      { id: 149, topic: "Konu 17: KAA'da Yönlendirme (Routing) Protokolleri", qNo: "S30", question: "Aşağıdaki protokol-uygulama eşleştirmelerinden hangisi sunumdaki karşılaştırma tablosuna uygundur?", options: ["GEAR - Acil durum gözlemi", "PEGASIS - Bölgesel sorgular", "SPIN - Sabit sensörler", "TEEN - Acil durum gözlemi", "LEACH - Yalnızca bölgesel sorgular"], correctIndex: 3 },
+
+      // [Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu]
+      { id: 150, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S1", question: "PEGASIS protokolünün mimari sınıfı aşağıdakilerden hangisidir?", options: ["Küme Tabanlı", "Zincir Tabanlı", "Veri Merkezli", "Reaktif Hiyerarşik", "Konum Tabanlı"], correctIndex: 1 },
+      { id: 151, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S2", question: "Tabloya göre enerji tasarrufu seviyesi \"Çok Yüksek\" olan protokoller hangi seçenekte doğru verilmiştir?", options: ["LEACH ve SPIN", "SPIN ve GEAR", "PEGASIS ve TEEN", "TEEN ve GEAR", "LEACH ve PEGASIS"], correctIndex: 2 },
+      { id: 152, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S3", question: "Gecikme süresi \"Çok Düşük (Kritik)\" olan protokol aşağıdakilerden hangisidir?", options: ["LEACH", "PEGASIS", "SPIN", "TEEN", "GEAR"], correctIndex: 3 },
+      { id: 153, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S4", question: "LEACH ve SPIN protokollerinin uygulama alanları sırasıyla hangi seçenekte doğru verilmiştir?", options: ["Geniş Alanlar / Sürekli Veri Akışı", "Sabit Sensörler / Acil Durum Gözlem", "Bölgesel Sorgular / Geniş Alanlar", "Sürekli Veri Akışı / Bölgesel Sorgular", "Acil Durum Gözlem / Sabit Sensörler"], correctIndex: 0 },
+      { id: 154, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S5", question: "SPIN ve GEAR protokollerinin mimari sınıfları sırasıyla hangi seçenekte doğru verilmiştir?", options: ["Küme Tabanlı / Zincir Tabanlı", "Zincir Tabanlı / Veri Merkezli", "Veri Merkezli / Konum Tabanlı", "Reaktif Hiyerarşik / Küme Tabanlı", "Konum Tabanlı / Reaktif Hiyerarşik"], correctIndex: 2 },
+      { id: 155, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S7", question: "Enerji tasarrufu seviyesi \"Orta / Yüksek\" olan protokol aşağıdakilerden hangisidir?", options: ["LEACH", "PEGASIS", "SPIN", "TEEN", "GEAR"], correctIndex: 2 },
+      { id: 156, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S9", question: "GEAR protokolünün enerji tasarrufu seviyesi ve gecikme süresi hangi seçenekte doğru verilmiştir?", options: ["Çok Yüksek / Düşük", "Yüksek / Düşük", "Orta / Yüksek / Düşük", "Yüksek / Yüksek", "Çok Yüksek / Çok Düşük (Kritik)"], correctIndex: 1 },
+      { id: 157, topic: "Konu 17 Ek: Yönlendirme Protokol Karşılaştırma Tablosu", qNo: "Ek S10", question: "Uygulama alanı \"Bölgesel Sorgular\" olan ve \"Acil Durum Gözlem\" alanında kullanılan protokoller sırasıyla hangi seçenekte doğru verilmiştir?", options: ["GEAR / TEEN", "TEEN / GEAR", "LEACH / SPIN", "SPIN / PEGASIS", "PEGASIS / LEACH"], correctIndex: 0 }
+    ];
+
+    // =========================================================================
+    // 2. UYGULAMA DURUMU (STATE) VE LOCALSTORAGE YÖNETİMİ
+    // =========================================================================
+    const STORAGE_KEYS = {
+      THEME: "kaa_platform_theme",
+      WRONG: "kaa_platform_wrong_ids",
+      STARRED: "kaa_platform_starred_ids",
+      SOLVED_COUNT: "kaa_platform_total_solved"
+    };
+
+    const LETTERS = ["A", "B", "C", "D", "E"];
+
+    let appSettings = {
+      controlMode: "instant",     // "instant" | "end"
+      questionOrder: "random",    // "random" | "sequential"
+      simCount: 25                // 25 | 50
+    };
+
+    let persistedData = {
+      wrongIds: new Set(),
+      starredIds: new Set(),
+      totalSolved: 0
+    };
+
+    let selectedTopics = new Set();
+
+    // Aktif Oturum Durumu
+    let session = {
+      active: false,
+      modeName: "",
+      lastLauncher: null,
+      questions: [],      // Her eleman: { ...rawQ, displayOptions: [{ text, origIdx }], displayCorrectIdx, userChoiceIdx: null }
+      currentIndex: 0,
+      timerSeconds: 0,
+      isCountdown: false,
+      timerInterval: null,
+      reviewFilter: "all"
+    };
+
+    // =========================================================================
+    // 3. BAŞLATMA & TEMA YÖNETİMİ
+    // =========================================================================
+    function initApp() {
+      try {
+        // Tema yükle (Varsayılan: Koyu tema)
+        const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+        if (savedTheme === "light") {
+          document.documentElement.classList.remove("dark");
+        } else {
+          document.documentElement.classList.add("dark");
+        }
+
+        // Kayıtlı yanlış ve yıldızlı soruları yükle
+        const rawWrong = JSON.parse(localStorage.getItem(STORAGE_KEYS.WRONG) || "[]");
+        const rawStarred = JSON.parse(localStorage.getItem(STORAGE_KEYS.STARRED) || "[]");
+        const rawSolved = parseInt(localStorage.getItem(STORAGE_KEYS.SOLVED_COUNT) || "0", 10);
+
+        persistedData.wrongIds = new Set(Array.isArray(rawWrong) ? rawWrong : []);
+        persistedData.starredIds = new Set(Array.isArray(rawStarred) ? rawStarred : []);
+        persistedData.totalSolved = Number.isFinite(rawSolved) ? rawSolved : 0;
+      } catch (err) {
+        console.warn("LocalStorage okuma hatası:", err);
+      }
+
+      renderTopicSelectors();
+      updateHomeDashboardStats();
+      setupKeyboardShortcuts();
+    }
+
+    function savePersistedData() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.WRONG, JSON.stringify([...persistedData.wrongIds]));
+        localStorage.setItem(STORAGE_KEYS.STARRED, JSON.stringify([...persistedData.starredIds]));
+        localStorage.setItem(STORAGE_KEYS.SOLVED_COUNT, String(persistedData.totalSolved));
+      } catch (err) {
+        console.warn("LocalStorage yazma hatası:", err);
+      }
+    }
+
+    function toggleTheme() {
+      const htmlEl = document.documentElement;
+      const isDark = htmlEl.classList.toggle("dark");
+      try {
+        localStorage.setItem(STORAGE_KEYS.THEME, isDark ? "dark" : "light");
+      } catch (err) {}
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      const text = document.getElementById("toastMessage");
+      text.textContent = msg;
+      box.classList.remove("opacity-0", "translate-y-2");
+      box.classList.add("opacity-100", "translate-y-0");
+      clearTimeout(box._hideTimer);
+      box._hideTimer = setTimeout(() => {
+        box.classList.add("opacity-0", "translate-y-2");
+        box.classList.remove("opacity-100", "translate-y-0");
+      }, 2400);
+    }
+
+    // =========================================================================
+    // 4. ANA EKRAN AYARLARI & KONU FİLTRELEME
+    // =========================================================================
+    function setControlMode(mode) {
+      appSettings.controlMode = mode;
+      const instantBtn = document.getElementById("ctrlInstantBtn");
+      const endBtn = document.getElementById("ctrlEndBtn");
+      if (mode === "instant") {
+        instantBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all";
+        endBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+      } else {
+        endBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all";
+        instantBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+      }
+    }
+
+    function setQuestionOrder(order) {
+      appSettings.questionOrder = order;
+      const randBtn = document.getElementById("orderRandomBtn");
+      const seqBtn = document.getElementById("orderSeqBtn");
+      if (order === "random") {
+        randBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all";
+        seqBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+      } else {
+        seqBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all";
+        randBtn.className = "px-2 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all";
+      }
+    }
+
+    function setSimCount(count) {
+      appSettings.simCount = count;
+      const btn25 = document.getElementById("simCount25");
+      const btn50 = document.getElementById("simCount50");
+      if (count === 25) {
+        btn25.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition-all";
+        btn50.className = "py-2 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition-all";
+      } else {
+        btn50.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white shadow-sm transition-all";
+        btn25.className = "py-2 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition-all";
+      }
+    }
+
+    function getUniqueTopicsWithCounts() {
+      const map = new Map();
+      for (const q of QUESTIONS_DB) {
+        map.set(q.topic, (map.get(q.topic) || 0) + 1);
+      }
+      return [...map.entries()].map(([topic, count]) => ({ topic, count }));
+    }
+
+    function renderTopicSelectors() {
+      const container = document.getElementById("topicSelectorGrid");
+      const topics = getUniqueTopicsWithCounts();
+      container.innerHTML = "";
+
+      topics.forEach(({ topic, count }) => {
+        const isChecked = selectedTopics.has(topic);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.onclick = () => toggleTopicSelection(topic);
+        btn.className = `flex items-center justify-between gap-2 p-3 rounded-xl border text-left transition-all ${
+          isChecked
+            ? "bg-violet-600/10 border-violet-500 text-slate-900 dark:text-white"
+            : "bg-slate-50/70 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+        }`;
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-4 h-4 rounded flex items-center justify-center shrink-0 border ${
+              isChecked
+                ? "bg-violet-600 border-violet-600 text-white"
+                : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900"
+            }">
+              ${isChecked ? '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>' : ""}
+            </span>
+            <span class="text-xs font-semibold truncate">${escapeHtml(topic)}</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-bold shrink-0 ${
+            isChecked
+              ? "bg-violet-600 text-white"
+              : "bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
+          }">${count}</span>
+        `;
+        container.appendChild(btn);
+      });
+
+      updateTopicSummary();
+    }
+
+    function toggleTopicSelection(topic) {
+      if (selectedTopics.has(topic)) {
+        selectedTopics.delete(topic);
+      } else {
+        selectedTopics.add(topic);
+      }
+      renderTopicSelectors();
+    }
+
+    function selectAllTopics(selectAll) {
+      const topics = getUniqueTopicsWithCounts();
+      if (selectAll) {
+        topics.forEach(t => selectedTopics.add(t.topic));
+      } else {
+        selectedTopics.clear();
+      }
+      renderTopicSelectors();
+    }
+
+    function updateTopicSummary() {
+      const matchingCount = QUESTIONS_DB.filter(q => selectedTopics.has(q.topic)).length;
+      document.getElementById("selectedTopicSummary").textContent =
+        `Seçili: ${selectedTopics.size} konu (${matchingCount} soru)`;
+      const btn = document.getElementById("startTopicBtn");
+      const btnText = document.getElementById("startTopicBtnText");
+      btn.disabled = matchingCount === 0;
+      btnText.textContent = matchingCount > 0
+        ? `Seçili Konulardan Test Başlat (${matchingCount} Soru)`
+        : "En Az 1 Konu Seçin";
+    }
+
+    function updateHomeDashboardStats() {
+      const wrongCount = persistedData.wrongIds.size;
+      const starCount = persistedData.starredIds.size;
+      const bothSet = new Set([...persistedData.wrongIds, ...persistedData.starredIds]);
+
+      document.getElementById("statTotalSolved").textContent = persistedData.totalSolved;
+      document.getElementById("statWrongCount").textContent = wrongCount;
+      document.getElementById("statStarredCount").textContent = starCount;
+
+      document.getElementById("reviewBothCount").textContent = bothSet.size;
+      document.getElementById("reviewWrongCount").textContent = wrongCount;
+      document.getElementById("reviewStarCount").textContent = starCount;
+
+      document.getElementById("reviewBothBtn").disabled = bothSet.size === 0;
+      document.getElementById("reviewWrongBtn").disabled = wrongCount === 0;
+      document.getElementById("reviewStarBtn").disabled = starCount === 0;
+    }
+
+    // =========================================================================
+    // 5. SINAV BAŞLATMA FONKSİYONLARI
+    // =========================================================================
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function prepareQuizSession(rawQuestions, modeName, countdownMinutes = 0, launcherFn = null) {
+      if (!rawQuestions || rawQuestions.length === 0) {
+        showToast("Seçilen kriterlere uygun soru bulunamadı.");
+        return;
+      }
+
+      const shuffleOptions = document.getElementById("optShuffleOptions").checked;
+      let orderedQuestions = appSettings.questionOrder === "random"
+        ? shuffleArray(rawQuestions)
+        : [...rawQuestions].sort((a, b) => a.id - b.id);
+
+      const prepared = orderedQuestions.map(q => {
+        const indexedOptions = q.options.map((text, idx) => ({ text, origIdx: idx }));
+        const finalOptions = shuffleOptions ? shuffleArray(indexedOptions) : indexedOptions;
+        const displayCorrectIdx = finalOptions.findIndex(o => o.origIdx === q.correctIndex);
+
+        return {
+          ...q,
+          displayOptions: finalOptions,
+          displayCorrectIdx,
+          userChoiceIdx: null
+        };
+      });
+
+      clearInterval(session.timerInterval);
+      session = {
+        active: true,
+        modeName,
+        lastLauncher: launcherFn,
+        questions: prepared,
+        currentIndex: 0,
+        timerSeconds: countdownMinutes > 0 ? countdownMinutes * 60 : 0,
+        isCountdown: countdownMinutes > 0,
+        timerInterval: null,
+        reviewFilter: "all"
+      };
+
+      switchView("quiz");
+      startSessionTimer();
+      renderCurrentQuestion();
+    }
+
+    function startAllPoolQuiz() {
+      prepareQuizSession(QUESTIONS_DB, "Tüm İstisna Havuzu (157 Soru)", 0, startAllPoolQuiz);
+    }
+
+    function startSimulationQuiz() {
+      const count = appSettings.simCount;
+      const mins = parseInt(document.getElementById("simTimerSelect").value || "0", 10);
+      const pool = shuffleArray(QUESTIONS_DB).slice(0, count);
+      prepareQuizSession(pool, `Vize Simülasyonu (${count} Soru)`, mins, startSimulationQuiz);
+    }
+
+    function startTopicQuiz() {
+      const filtered = QUESTIONS_DB.filter(q => selectedTopics.has(q.topic));
+      if (filtered.length === 0) return;
+      const label = selectedTopics.size === 1
+        ? [...selectedTopics][0].split(":")[0]
+        : `Konu Bazlı (${selectedTopics.size} Konu)`;
+      prepareQuizSession(filtered, label, 0, startTopicQuiz);
+    }
+
+    function startReviewQuiz(type) {
+      let targetIds = new Set();
+      let label = "";
+      if (type === "wrong") {
+        targetIds = new Set(persistedData.wrongIds);
+        label = "Yanlışlarım Tekrarı";
+      } else if (type === "starred") {
+        targetIds = new Set(persistedData.starredIds);
+        label = "Yıldızlı Sorular Tekrarı";
+      } else {
+        targetIds = new Set([...persistedData.wrongIds, ...persistedData.starredIds]);
+        label = "Yanlış & Yıldızlı Tekrarı";
+      }
+
+      const pool = QUESTIONS_DB.filter(q => targetIds.has(q.id));
+      if (pool.length === 0) {
+        showToast("Bu kategoride kayıtlı soru bulunmuyor.");
+        return;
+      }
+      prepareQuizSession(pool, label, 0, () => startReviewQuiz(type));
+    }
+
+    function restartSameMode() {
+      if (typeof session.lastLauncher === "function") {
+        session.lastLauncher();
+      } else {
+        goHome();
+      }
+    }
+
+    // =========================================================================
+    // 6. SAYAÇ VE EKRAN GEÇİŞLERİ
+    // =========================================================================
+    function switchView(viewName) {
+      document.getElementById("view-home").classList.add("hidden");
+      document.getElementById("view-quiz").classList.add("hidden");
+      document.getElementById("view-results").classList.add("hidden");
+      document.getElementById(`view-${viewName}`).classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function formatTime(totalSec) {
+      const mins = Math.floor(Math.max(0, totalSec) / 60);
+      const secs = Math.max(0, totalSec) % 60;
+      return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    }
+
+    function startSessionTimer() {
+      const display = document.getElementById("timerDisplay");
+      const box = document.getElementById("timerBox");
+      display.textContent = formatTime(session.timerSeconds);
+      box.classList.remove("border-rose-500", "text-rose-500");
+
+      session.timerInterval = setInterval(() => {
+        if (!session.active) {
+          clearInterval(session.timerInterval);
+          return;
+        }
+        if (session.isCountdown) {
+          session.timerSeconds--;
+          display.textContent = formatTime(session.timerSeconds);
+          if (session.timerSeconds <= 60) {
+            box.classList.add("border-rose-500", "text-rose-500");
+          }
+          if (session.timerSeconds <= 0) {
+            clearInterval(session.timerInterval);
+            showToast("Süre doldu! Sınav otomatik tamamlandı.");
+            finishQuiz();
+          }
+        } else {
+          session.timerSeconds++;
+          display.textContent = formatTime(session.timerSeconds);
+        }
+      }, 1000);
+    }
+
+    // =========================================================================
+    // 7. SORU RENDER VE ETKİLEŞİM MANTIĞI
+    // =========================================================================
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderCurrentQuestion() {
+      const total = session.questions.length;
+      const idx = session.currentIndex;
+      const q = session.questions[idx];
+      const showLength = document.getElementById("optLengthAnalysis").checked;
+      const isInstant = appSettings.controlMode === "instant";
+      const isAnswered = q.userChoiceIdx !== null;
+
+      // Üst Bilgiler
+      document.getElementById("quizModeBadge").textContent = session.modeName;
+      document.getElementById("quizProgressText").textContent = `Soru ${idx + 1} / ${total}`;
+      document.getElementById("quizProgressBar").style.width = `${((idx + 1) / total) * 100}%`;
+
+      // Canlı skor rozetleri
+      const liveBadges = document.getElementById("liveScoreBadges");
+      if (isInstant) {
+        liveBadges.classList.remove("hidden");
+        liveBadges.classList.add("flex");
+        let c = 0, w = 0;
+        session.questions.forEach(item => {
+          if (item.userChoiceIdx !== null) {
+            if (item.userChoiceIdx === item.displayCorrectIdx) c++;
+            else w++;
+          }
+        });
+        document.getElementById("liveCorrect").textContent = c;
+        document.getElementById("liveWrong").textContent = w;
+      } else {
+        liveBadges.classList.add("hidden");
+        liveBadges.classList.remove("flex");
+      }
+
+      // Meta rozetler
+      document.getElementById("qTopicBadge").textContent = q.topic;
+      document.getElementById("qOrigNoBadge").textContent = q.qNo;
+      document.getElementById("qPoolIdBadge").textContent = `Havuz #${q.id}`;
+      document.getElementById("questionText").textContent = q.question;
+
+      // Yıldız butonu durumu
+      updateStarButtonUI(q.id);
+
+      // En uzun şık karakter uzunluğunu hesapla (Uzunluk tuzağı analizi için)
+      const lengths = q.displayOptions.map(o => o.text.length);
+      const maxLen = Math.max(...lengths);
+
+      // Şıkları oluştur
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      q.displayOptions.forEach((opt, optIdx) => {
+        const letter = LETTERS[optIdx] || String(optIdx + 1);
+        const isSelected = q.userChoiceIdx === optIdx;
+        const isCorrectOpt = optIdx === q.displayCorrectIdx;
+        const charLen = opt.text.length;
+        const isMaxLen = charLen === maxLen;
+
+        let wrapperClasses =
+          "w-full text-left p-3.5 sm:p-4 rounded-xl border-2 transition-all flex items-center justify-between gap-3 group ";
+        let badgeClasses =
+          "w-8 h-8 rounded-lg flex items-center justify-center text-xs sm:text-sm font-extrabold shrink-0 transition-colors ";
+
+        if (isInstant && isAnswered) {
+          if (isCorrectOpt) {
+            wrapperClasses += "bg-emerald-500/10 border-emerald-500 text-slate-900 dark:text-white";
+            badgeClasses += "bg-emerald-500 text-white";
+          } else if (isSelected && !isCorrectOpt) {
+            wrapperClasses += "bg-rose-500/10 border-rose-500 text-slate-900 dark:text-white";
+            badgeClasses += "bg-rose-500 text-white";
+          } else {
+            wrapperClasses += "bg-slate-50/50 dark:bg-slate-800/30 border-slate-200/70 dark:border-slate-800 text-slate-500 dark:text-slate-400 opacity-75";
+            badgeClasses += "bg-slate-200 dark:bg-slate-800 text-slate-500";
+          }
+        } else {
+          if (isSelected) {
+            wrapperClasses += "bg-indigo-600/10 border-indigo-500 text-slate-900 dark:text-white shadow-sm";
+            badgeClasses += "bg-indigo-600 text-white";
+          } else {
+            wrapperClasses += "bg-slate-50/80 dark:bg-slate-800/50 border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500/70 text-slate-800 dark:text-slate-200";
+            badgeClasses += "bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 group-hover:border-indigo-400";
+          }
+        }
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = wrapperClasses;
+        btn.onclick = () => selectOption(optIdx);
+
+        // Sağ taraftaki durum / uzunluk rozetleri
+        let rightBadgesHtml = "";
+        if (showLength) {
+          rightBadgesHtml += `
+            <span class="px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold shrink-0 ${
+              isMaxLen
+                ? "bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30"
+                : "bg-slate-200/70 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+            }" title="Karakter uzunluğu">${charLen} krk</span>
+          `;
+        }
+
+        if (isInstant && isAnswered) {
+          if (isCorrectOpt) {
+            rightBadgesHtml += `<span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-500 text-white shrink-0">Doğru</span>`;
+          } else if (isSelected) {
+            rightBadgesHtml += `<span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-500 text-white shrink-0">Yanlış</span>`;
+          }
+        }
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-3.5 min-w-0">
+            <span class="${badgeClasses}">${letter}</span>
+            <span class="text-sm sm:text-base font-medium leading-snug break-words">${escapeHtml(opt.text)}</span>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            ${rightBadgesHtml}
+          </div>
+        `;
+
+        optionsContainer.appendChild(btn);
+      });
+
+      // Anında Kontrol Geri Bildirim Kutusu
+      const feedbackBox = document.getElementById("instantFeedbackBox");
+      if (isInstant && isAnswered) {
+        const isCorrect = q.userChoiceIdx === q.displayCorrectIdx;
+        const correctOpt = q.displayOptions[q.displayCorrectIdx];
+        const correctLen = correctOpt.text.length;
+        const trapReason = correctLen < maxLen
+          ? `Doğru şık <strong>${correctLen} karakter</strong> iken en uzun çeldirici <strong>${maxLen} karakter</strong> olduğu için "en uzun şık" kuralına uymaz.`
+          : `Şıklar <strong>${correctLen} karakter</strong> ile eşit uzunlukta olduğu için görsel uzunluk tek başına ayırt edici değildir.`;
+
+        feedbackBox.classList.remove("hidden");
+        if (isCorrect) {
+          feedbackBox.className = "mt-6 p-4 rounded-xl border bg-emerald-500/10 border-emerald-500/30 text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm space-y-1";
+          feedbackBox.innerHTML = `
+            <div class="font-bold flex items-center gap-1.5"><span>✓ Harika! Doğru cevap verdin.</span></div>
+            ${showLength ? `<div class="opacity-90">${trapReason}</div>` : ""}
+          `;
+        } else {
+          feedbackBox.className = "mt-6 p-4 rounded-xl border bg-rose-500/10 border-rose-500/30 text-rose-900 dark:text-rose-200 text-xs sm:text-sm space-y-1";
+          feedbackBox.innerHTML = `
+            <div class="font-bold">✕ Yanlış Cevap! Doğru seçenek: <span class="underline">${LETTERS[q.displayCorrectIdx]}) ${escapeHtml(correctOpt.text)}</span></div>
+            <div class="opacity-90">Bu soru otomatik olarak <strong>"Yanlışlarım"</strong> tekrar listesine eklendi. ${showLength ? trapReason : ""}</div>
+          `;
+        }
+      } else {
+        feedbackBox.classList.add("hidden");
+      }
+
+      // Alt buton durumları
+      document.getElementById("prevQuestionBtn").disabled = idx === 0;
+      const nextLabel = document.getElementById("nextBtnLabel");
+      nextLabel.textContent = idx === total - 1 ? "Testi Bitir" : "Sonraki Soru";
+    }
+
+    function selectOption(optIdx) {
+      if (!session.active) return;
+      const q = session.questions[session.currentIndex];
+      const isInstant = appSettings.controlMode === "instant";
+
+      // Anında kontrol modunda bir kez işaretlendiyse kilitle
+      if (isInstant && q.userChoiceIdx !== null) {
+        return;
+      }
+
+      q.userChoiceIdx = optIdx;
+
+      // Anında kontrol modunda LocalStorage istatistiklerini güncelle
+      if (isInstant) {
+        persistedData.totalSolved++;
+        if (optIdx === q.displayCorrectIdx) {
+          persistedData.wrongIds.delete(q.id);
+        } else {
+          persistedData.wrongIds.add(q.id);
+        }
+        savePersistedData();
+      }
+
+      renderCurrentQuestion();
+    }
+
+    function nextQuestion() {
+      if (!session.active) return;
+      if (session.currentIndex < session.questions.length - 1) {
+        session.currentIndex++;
+        renderCurrentQuestion();
+      } else {
+        askFinishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (!session.active) return;
+      if (session.currentIndex > 0) {
+        session.currentIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    function updateStarButtonUI(qId) {
+      const isStarred = persistedData.starredIds.has(qId);
+      const btn = document.getElementById("starCurrentBtn");
+      const icon = document.getElementById("starIcon");
+      const text = document.getElementById("starBtnText");
+
+      if (isStarred) {
+        btn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-all bg-amber-500/15 border-amber-500/40 text-amber-700 dark:text-amber-300";
+        icon.setAttribute("fill", "currentColor");
+        icon.classList.remove("text-slate-400");
+        icon.classList.add("text-amber-500");
+        text.textContent = "Yıldızlandı (S)";
+      } else {
+        btn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-amber-400";
+        icon.setAttribute("fill", "none");
+        icon.classList.remove("text-amber-500");
+        icon.classList.add("text-slate-400");
+        text.textContent = "Tekrar Et (S)";
+      }
+    }
+
+    function toggleCurrentStar() {
+      if (!session.active) return;
+      const q = session.questions[session.currentIndex];
+      if (persistedData.starredIds.has(q.id)) {
+        persistedData.starredIds.delete(q.id);
+        showToast("Yıldızlı sorulardan çıkarıldı.");
+      } else {
+        persistedData.starredIds.add(q.id);
+        showToast("Tekrar Et listesine yıldızlandı ★");
+      }
+      savePersistedData();
+      updateStarButtonUI(q.id);
+    }
+
+    // =========================================================================
+    // 8. SINAVI BİTİRME VE SONUÇ EKRANI
+    // =========================================================================
+    function askFinishQuiz() {
+      const unanswered = session.questions.filter(q => q.userChoiceIdx === null).length;
+      if (unanswered === 0) {
+        finishQuiz();
+        return;
+      }
+      openConfirmModal(
+        "Testi Bitirmek İstiyor musun?",
+        `Henüz cevaplanmamış <strong>${unanswered} boş sorun</strong> var. Testi şimdi sonlandırıp sonuç ekranına geçmek istiyor musun?`,
+        "Testi Bitir",
+        () => finishQuiz()
+      );
+    }
+
+    function finishQuiz() {
+      session.active = false;
+      clearInterval(session.timerInterval);
+
+      let correct = 0;
+      let wrong = 0;
+      let blank = 0;
+
+      // Eğer Sınav Sonu Kontrol modundaysak sonuçları şimdi kaydet
+      const isEndControl = appSettings.controlMode === "end";
+
+      session.questions.forEach(q => {
+        if (q.userChoiceIdx === null) {
+          blank++;
+        } else if (q.userChoiceIdx === q.displayCorrectIdx) {
+          correct++;
+          if (isEndControl) {
+            persistedData.totalSolved++;
+            persistedData.wrongIds.delete(q.id);
+          }
+        } else {
+          wrong++;
+          if (isEndControl) {
+            persistedData.totalSolved++;
+            persistedData.wrongIds.add(q.id);
+          }
+        }
+      });
+
+      if (isEndControl) {
+        savePersistedData();
+      }
+
+      const total = session.questions.length;
+      const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+      document.getElementById("resModeLabel").textContent = session.modeName;
+      document.getElementById("resPercentage").textContent = `%${pct}`;
+      document.getElementById("resCorrect").textContent = correct;
+      document.getElementById("resWrong").textContent = wrong;
+      document.getElementById("resBlank").textContent = blank;
+      document.getElementById("resTime").textContent = formatTime(session.timerSeconds);
+
+      const encouragement = pct >= 85
+        ? "Mükemmel! İstisna sorulara tamamen hakimsin, sınavda sürpriz yaşamayacaksın."
+        : pct >= 65
+        ? "Gayet iyi! Yanlış yaptığın soruları tekrar çözerek %90 üzerine çıkabilirsin."
+        : "Bu sorular özellikle tuzak sorular olduğu için tekrar gerektiriyor. Yanlışlarını hemen tekrar çöz!";
+      document.getElementById("resEncouragement").textContent = encouragement;
+
+      // Yanlışları tekrar çöz butonu
+      const retryBtn = document.getElementById("retryWrongSessionBtn");
+      const retryText = document.getElementById("retryWrongSessionText");
+      if (wrong > 0) {
+        retryBtn.classList.remove("hidden");
+        retryText.textContent = `Yanlış Yapılan ${wrong} Soruyu Tekrar Çöz`;
+      } else {
+        retryBtn.classList.add("hidden");
+      }
+
+      renderTopicBreakdown();
+      session.reviewFilter = "all";
+      renderDetailedReviewList();
+      switchView("results");
+    }
+
+    function retrySessionWrongQuestions() {
+      const wrongRaw = session.questions
+        .filter(q => q.userChoiceIdx !== null && q.userChoiceIdx !== q.displayCorrectIdx)
+        .map(q => QUESTIONS_DB.find(orig => orig.id === q.id))
+        .filter(Boolean);
+
+      if (wrongRaw.length === 0) {
+        showToast("Bu oturumda yanlış yaptığın soru yok!");
+        return;
+      }
+      prepareQuizSession(wrongRaw, `Oturum Yanlışları (${wrongRaw.length} Soru)`, 0, () => retrySessionWrongQuestions());
+    }
+
+    function renderTopicBreakdown() {
+      const container = document.getElementById("topicBreakdownContainer");
+      const statsMap = new Map();
+
+      session.questions.forEach(q => {
+        if (!statsMap.has(q.topic)) {
+          statsMap.set(q.topic, { total: 0, correct: 0, wrong: 0, blank: 0 });
+        }
+        const entry = statsMap.get(q.topic);
+        entry.total++;
+        if (q.userChoiceIdx === null) entry.blank++;
+        else if (q.userChoiceIdx === q.displayCorrectIdx) entry.correct++;
+        else entry.wrong++;
+      });
+
+      container.innerHTML = "";
+      statsMap.forEach((st, topic) => {
+        const rate = Math.round((st.correct / st.total) * 100);
+        const barColor = rate >= 75 ? "bg-emerald-500" : rate >= 50 ? "bg-amber-500" : "bg-rose-500";
+
+        const card = document.createElement("div");
+        card.className = "p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 space-y-2";
+        card.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">${escapeHtml(topic)}</span>
+            <span class="text-xs font-extrabold text-slate-900 dark:text-white shrink-0">%${rate} (${st.correct}/${st.total})</span>
+          </div>
+          <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div class="h-full ${barColor} rounded-full" style="width: ${rate}%"></div>
+          </div>
+          <div class="flex items-center gap-3 text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+            <span class="text-emerald-600 dark:text-emerald-400">✓ ${st.correct} Doğru</span>
+            <span class="text-rose-600 dark:text-rose-400">✕ ${st.wrong} Yanlış</span>
+            <span>• ${st.blank} Boş</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterReviewList(filter) {
+      session.reviewFilter = filter;
+      const filters = ["all", "wrong", "blank", "correct"];
+      const btnIds = { all: "revFilterAll", wrong: "revFilterWrong", blank: "revFilterBlank", correct: "revFilterCorrect" };
+
+      filters.forEach(f => {
+        const btn = document.getElementById(btnIds[f]);
+        if (f === filter) {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300";
+        }
+      });
+
+      renderDetailedReviewList();
+    }
+
+    function renderDetailedReviewList() {
+      const container = document.getElementById("detailedReviewList");
+      container.innerHTML = "";
+
+      const filtered = session.questions
+        .map((q, idx) => ({ q, idx }))
+        .filter(({ q }) => {
+          if (session.reviewFilter === "wrong") return q.userChoiceIdx !== null && q.userChoiceIdx !== q.displayCorrectIdx;
+          if (session.reviewFilter === "blank") return q.userChoiceIdx === null;
+          if (session.reviewFilter === "correct") return q.userChoiceIdx === q.displayCorrectIdx;
+          return true;
+        });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-sm text-slate-500 dark:text-slate-400">Bu filtreye uyan soru bulunmuyor.</div>`;
+        return;
+      }
+
+      filtered.forEach(({ q, idx }) => {
+        const isBlank = q.userChoiceIdx === null;
+        const isCorrect = !isBlank && q.userChoiceIdx === q.displayCorrectIdx;
+        const isStarred = persistedData.starredIds.has(q.id);
+
+        const statusBadge = isCorrect
+          ? `<span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">✓ Doğru</span>`
+          : isBlank
+          ? `<span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">• Boş</span>`
+          : `<span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-rose-500/15 text-rose-700 dark:text-rose-300">✕ Yanlış</span>`;
+
+        const optionsHtml = q.displayOptions.map((opt, oIdx) => {
+          const isUserOpt = q.userChoiceIdx === oIdx;
+          const isRightOpt = q.displayCorrectIdx === oIdx;
+          let rowCls = "px-3 py-2 rounded-lg text-xs sm:text-sm flex items-center justify-between gap-2 ";
+          if (isRightOpt) {
+            rowCls += "bg-emerald-500/15 border border-emerald-500/40 text-emerald-900 dark:text-emerald-200 font-bold";
+          } else if (isUserOpt && !isRightOpt) {
+            rowCls += "bg-rose-500/15 border border-rose-500/40 text-rose-900 dark:text-rose-200 font-semibold";
+          } else {
+            rowCls += "bg-slate-50 dark:bg-slate-800/40 text-slate-600 dark:text-slate-400";
+          }
+
+          return `
+            <div class="${rowCls}">
+              <span><strong>${LETTERS[oIdx]})</strong> ${escapeHtml(opt.text)}</span>
+              <span class="text-[11px] font-mono opacity-75 shrink-0">${opt.text.length} krk ${isRightOpt ? "✓" : isUserOpt ? "(Senin)" : ""}</span>
+            </div>
+          `;
+        }).join("");
+
+        const card = document.createElement("div");
+        card.className = "p-4 sm:p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 space-y-3";
+        card.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-extrabold text-indigo-600 dark:text-indigo-400">#${idx + 1}</span>
+              ${statusBadge}
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">${escapeHtml(q.topic)} (${q.qNo})</span>
+            </div>
+            <button type="button" onclick="toggleReviewItemStar(${q.id}, this)" class="px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors ${
+              isStarred
+                ? "bg-amber-500/15 border-amber-500/40 text-amber-700 dark:text-amber-300"
+                : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400"
+            }">
+              ${isStarred ? "★ Yıldızlı" : "☆ Yıldızla"}
+            </button>
+          </div>
+          <div class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">${escapeHtml(q.question)}</div>
+          <div class="space-y-1.5">${optionsHtml}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleReviewItemStar(qId, btnEl) {
+      if (persistedData.starredIds.has(qId)) {
+        persistedData.starredIds.delete(qId);
+        btnEl.textContent = "☆ Yıldızla";
+        btnEl.className = "px-2.5 py-1 rounded-lg text-xs font-semibold border transition-colors bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400";
+      } else {
+        persistedData.starredIds.add(qId);
+        btnEl.textContent = "★ Yıldızlı";
+        btnEl.className = "px-2.5 py-1 rounded-lg text-xs font-bold border transition-colors bg-amber-500/15 border-amber-500/40 text-amber-700 dark:text-amber-300";
+      }
+      savePersistedData();
+    }
+
+    // =========================================================================
+    // 9. MODALLAR & ANA MENÜYE DÖNÜŞ & KLAVYE KISAYOLLARI
+    // =========================================================================
+    function confirmGoHome() {
+      if (!session.active) {
+        goHome();
+        return;
+      }
+      openConfirmModal(
+        "Ana Menüye Dönülsün mü?",
+        "Aktif test oturumun sonlandırılacak ve ilerlemen kaydedilmeyecek. Ana menüye dönmek istiyor musun?",
+        "Ana Menüye Dön",
+        () => goHome()
+      );
+    }
+
+    function goHome() {
+      session.active = false;
+      clearInterval(session.timerInterval);
+      updateHomeDashboardStats();
+      switchView("home");
+    }
+
+    function askResetStorage() {
+      openConfirmModal(
+        "Kayıtlı İstatistikler Sıfırlansın mı?",
+        "Tarayıcı hafızasındaki tüm kayıtlı yanlış soruların, yıldızlı tekrar listen ve çözülen soru sayacın kalıcı olarak sıfırlanacak.",
+        "Evet, Sıfırla",
+        () => {
+          persistedData.wrongIds.clear();
+          persistedData.starredIds.clear();
+          persistedData.totalSolved = 0;
+          savePersistedData();
+          updateHomeDashboardStats();
+          showToast("Tüm kayıtlı yanlış ve yıldızlı sorular temizlendi.");
+        }
+      );
+    }
+
+    function openCheatSheetModal() {
+      document.getElementById("cheatSheetModal").classList.remove("hidden");
+    }
+
+    function closeCheatSheetModal() {
+      document.getElementById("cheatSheetModal").classList.add("hidden");
+    }
+
+    function openNavigatorModal() {
+      const grid = document.getElementById("navigatorGrid");
+      grid.innerHTML = "";
+
+      session.questions.forEach((q, idx) => {
+        const isCurrent = idx === session.currentIndex;
+        const isAnswered = q.userChoiceIdx !== null;
+        const isInstant = appSettings.controlMode === "instant";
+        const isStarred = persistedData.starredIds.has(q.id);
+
+        let cls = "h-10 rounded-xl text-xs font-extrabold border flex items-center justify-center relative transition-all ";
+        if (isCurrent) {
+          cls += "ring-2 ring-indigo-500 border-indigo-500 bg-indigo-600 text-white";
+        } else if (isAnswered && isInstant) {
+          if (q.userChoiceIdx === q.displayCorrectIdx) {
+            cls += "bg-emerald-500/15 border-emerald-500/40 text-emerald-700 dark:text-emerald-300";
+          } else {
+            cls += "bg-rose-500/15 border-rose-500/40 text-rose-700 dark:text-rose-300";
+          }
+        } else if (isAnswered) {
+          cls += "bg-indigo-500/15 border-indigo-500/40 text-indigo-700 dark:text-indigo-300";
+        } else {
+          cls += "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-400";
+        }
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = cls;
+        btn.onclick = () => {
+          session.currentIndex = idx;
+          closeNavigatorModal();
+          renderCurrentQuestion();
+        };
+        btn.innerHTML = `
+          <span>${idx + 1}</span>
+          ${isStarred ? '<span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400"></span>' : ""}
+        `;
+        grid.appendChild(btn);
+      });
+
+      document.getElementById("navigatorModal").classList.remove("hidden");
+    }
+
+    function closeNavigatorModal() {
+      document.getElementById("navigatorModal").classList.add("hidden");
+    }
+
+    let pendingConfirmCallback = null;
+
+    function openConfirmModal(title, htmlMessage, actionLabel, onConfirm) {
+      document.getElementById("confirmModalTitle").textContent = title;
+      document.getElementById("confirmModalMessage").innerHTML = htmlMessage;
+      const actionBtn = document.getElementById("confirmModalActionBtn");
+      actionBtn.textContent = actionLabel;
+      pendingConfirmCallback = onConfirm;
+      actionBtn.onclick = () => {
+        closeConfirmModal();
+        if (typeof pendingConfirmCallback === "function") {
+          pendingConfirmCallback();
+        }
+      };
+      document.getElementById("confirmModal").classList.remove("hidden");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("confirmModal").classList.add("hidden");
+    }
+
+    function setupKeyboardShortcuts() {
+      document.addEventListener("keydown", (e) => {
+        // Açık modal varsa ESC ile kapat
+        if (e.key === "Escape") {
+          closeCheatSheetModal();
+          closeNavigatorModal();
+          closeConfirmModal();
+          return;
+        }
+
+        // Herhangi bir modal açıksa veya aktif testte değilsek kısayolları çalıştırma
+        const anyModalOpen =
+          !document.getElementById("cheatSheetModal").classList.contains("hidden") ||
+          !document.getElementById("navigatorModal").classList.contains("hidden") ||
+          !document.getElementById("confirmModal").classList.contains("hidden");
+
+        if (anyModalOpen || !session.active) return;
+
+        // Form elemanlarındaysa atla
+        const tag = (e.target && e.target.tagName) || "";
+        if (tag === "INPUT" || tag === "SELECT" || tag === "TEXTAREA") return;
+
+        const key = e.key.toLowerCase();
+        const q = session.questions[session.currentIndex];
+        const maxOpts = q ? q.displayOptions.length : 0;
+
+        // 1-5 veya A-E tuşları ile şık seçimi
+        const keyMap = {
+          "1": 0, "a": 0,
+          "2": 1, "b": 1,
+          "3": 2, "c": 2,
+          "4": 3, "d": 3,
+          "5": 4, "e": 4
+        };
+
+        if (key in keyMap && keyMap[key] < maxOpts) {
+          e.preventDefault();
+          selectOption(keyMap[key]);
+          return;
+        }
+
+        // Enter veya Sağ Ok -> Sonraki soru
+        if (e.key === "Enter" || e.key === "ArrowRight") {
+          e.preventDefault();
+          nextQuestion();
+          return;
+        }
+
+        // Sol Ok -> Önceki soru
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          prevQuestion();
+          return;
+        }
+
+        // S -> Tekrar Et / Yıldızla
+        if (key === "s") {
+          e.preventDefault();
+          toggleCurrentStar();
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
